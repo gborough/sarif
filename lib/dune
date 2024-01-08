@@ -1,7 +1,7 @@
 (library
  (public_name sarif)
  (name sarif)
- (libraries core timedesc yojson atdgen-runtime re2 uri)
+ (libraries core timedesc atdgen-runtime re2 uri)
  (preprocess (pps ppx_deriving.show ppx_deriving.ord ppx_deriving.eq))
  (flags     :standard -w -30))
 
