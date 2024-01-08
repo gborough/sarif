@@ -1,0 +1,1893 @@
+type address <ocaml attr="deriving show,eq,ord"> = {
+  ~absolute_address
+    <ocaml default="-1L">
+    <json name="absoluteAddress">
+    <doc text="The address expressed as a byte offset from the start of the addressable region.">
+    : int64;
+  ?fully_qualified_name
+    <json name="fullyQualifiedName">
+    <doc text="A human-readable fully qualified name that is associated with the address.">
+    : string option;
+  ~index
+    <ocaml default="-1L">
+    <doc text="The index within run.addresses of the cached object for this address.">
+    : int64;
+  ?kind
+    <doc text="An open-ended string that identifies the address kind. 'data', 'function', 'header','instruction', 'module', 'page', 'section', 'segment', 'stack', 'stackFrame', 'table' are well-known values.">
+    : string option;
+  ?length
+    <doc text="The number of bytes in this range of addresses.">
+    : int64 option;
+  ?name
+    <doc text="A name that is associated with the address, e.g., '.text'.">
+    : string option;
+  ?offset_from_parent
+    <json name="offsetFromParent">
+    <doc text="The byte offset of this address from the absolute or relative address of the parent object.">
+    : int64 option;
+  ~parent_index
+    <ocaml default="-1L">
+    <json name="parentIndex">
+    <doc text="The index within run.addresses of the parent object.">
+    : int64;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the address.">
+    : property_bag option;
+  ?relative_address
+    <json name="relativeAddress">
+    <doc text="The address expressed as a byte offset from the absolute address of the top-most parent object.">
+    : int64 option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_address">
+  <doc text="A physical or virtual address, or a range of addresses, in an 'addressable region' (memory or a binary file).">
+
+type artifact <ocaml attr="deriving show,eq,ord"> = {
+  ?contents
+    <doc text="The contents of the artifact.">
+    : artifact_content option;
+  ?description
+    <doc text="A short description of the artifact.">
+    : message option;
+  ?encoding
+    <doc text="Specifies the encoding for an artifact object that refers to a text file.">
+    : string option;
+  ?hashes
+    <doc text="A dictionary, each of whose keys is the name of a hash function and each of whose values is the hashed value of the artifact produced by the specified hash function.">
+    : hm_str_str option;
+  ?last_modified_time_utc
+    <json name="lastModifiedTimeUtc">
+    <doc text="The Coordinated Universal Time (UTC) date and time at which the artifact was most recently modified. See \"Date/time properties\" in the SARIF spec for the required format.">
+    : string option;
+  ~length
+    <ocaml default="-1L">
+    <doc text="The length of the artifact in bytes.">
+    : int64;
+  ?location
+    <doc text="The location of the artifact.">
+    : artifact_location option;
+  ?mime_type
+    <json name="mimeType">
+    <doc text="The MIME type (RFC 2045) of the artifact.">
+    : artifact_mimetype option;
+  ?offset
+    <doc text="The offset in bytes of the artifact within its containing artifact.">
+    : int64 option;
+  ~parent_index
+    <ocaml default="-1L">
+    <json name="parentIndex">
+    <doc text="Identifies the index of the immediate parent of the artifact, if this artifact is nested.">
+    : int64;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the artifact.">
+    : external_properties option;
+  ?roles
+    <doc text="The role or roles played by the artifact in the analysis.">
+    : artifact_roles_item list option;
+  ?source_language
+    <json name="sourceLanguage">
+    <doc text="Specifies the source language for any artifact object that refers to a text file that contains source code.">
+    : string option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_artifact">
+  <doc text="A single artifact. In some cases, this artifact might be nested within another artifact.">
+
+type artifact_content <ocaml attr="deriving show,eq,ord"> = {
+  ?binary
+    <doc text="MIME Base64-encoded content from a binary artifact, or from a text artifact in its original encoding.">
+    : string option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the artifact content.">
+    : property_bag option;
+  ?rendered
+    <doc text="An alternate rendered representation of the artifact (e.g., a decompiled representation of a binary region).">
+    : multiformat_message_string option;
+  ?text
+    <doc text="UTF-8-encoded content from a text artifact.">
+    : string option
+}
+  <doc text="Represents the contents of an artifact.">
+
+type artifact_location <ocaml attr="deriving show,eq,ord"> = {
+  ?description
+    <doc text="A short description of the artifact location.">
+    : message option;
+  ~index
+    <ocaml default="-1L">
+    <doc text="The index within the run artifacts array of the artifact object associated with the artifact location.">
+    : int64;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the artifact location.">
+    : property_bag option;
+  ?uri
+    <doc text="A string containing a valid relative or absolute URI.">
+    : string option;
+  ?uri_base_id
+    <json name="uriBaseId">
+    <doc text="A string which indirectly specifies the absolute URI with respect to which a relative URI in the \"uri\" property is interpreted.">
+    : string option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_artifact_location">
+  <doc text="Specifies the location of an artifact.">
+
+type artifact_mimetype <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_artifact_mimetype">
+  <doc text="The MIME type (RFC 2045) of the artifact.">
+
+type artifact_roles_item <ocaml attr="deriving show,eq,ord"> = [
+  | AnalysisTarget <json name="analysisTarget">
+  | Attachment <json name="attachment">
+  | ResponseFile <json name="responseFile">
+  | ResultFile <json name="resultFile">
+  | StandardStream <json name="standardStream">
+  | TracedFile <json name="tracedFile">
+  | Unmodified <json name="unmodified">
+  | Modified <json name="modified">
+  | Added <json name="added">
+  | Deleted <json name="deleted">
+  | Renamed <json name="renamed">
+  | Uncontrolled <json name="uncontrolled">
+  | Driver <json name="driver">
+  | Extension <json name="extension">
+  | Translation <json name="translation">
+  | Taxonomy <json name="taxonomy">
+  | Policy <json name="policy">
+  | ReferencedOnCommandLine <json name="referencedOnCommandLine">
+  | MemoryContents <json name="memoryContents">
+  | Directory <json name="directory">
+  | UserSpecifiedConfiguration <json name="userSpecifiedConfiguration">
+  | ToolSpecifiedConfiguration <json name="toolSpecifiedConfiguration">
+  | DebugOutputFile <json name="debugOutputFile">
+]
+  <doc text="ArtifactRolesItem">
+
+type attachment <ocaml attr="deriving show,eq,ord"> = {
+  artifact_location
+    <json name="artifactLocation">
+    <doc text="The location of the attachment.">
+    : artifact_location;
+  ?description
+    <doc text="A message describing the role played by the attachment.">
+    : message option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the attachment.">
+    : property_bag option;
+  ?rectangles
+    <doc text="An array of rectangles specifying areas of interest within the image.">
+    : rectangle list option;
+  ?regions
+    <doc text="An array of regions of interest within the attachment.">
+    : region list option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_attachment">
+  <doc text="An artifact relevant to a result.">
+
+type artifact_change <ocaml attr="deriving show,eq,ord"> = {
+  artifact_location
+    <doc text="The location of the artifact to change.">
+    : artifact_location;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the change.">
+    : property_bag option;
+  replacements
+    <doc text="An array of replacement objects, each of which represents the replacement of a single region in a single artifact specified by 'artifactLocation'.">
+    : replacement list;
+}
+  <doc text="A change to a single artifact.">
+
+type conversion <ocaml attr="deriving show,eq,ord"> = {
+  ?analysis_tool_log_files
+    <json name="analysisToolLogFiles">
+    <doc text="The locations of the analysis tool's per-run log files.">
+    : artifact_location list option;
+  ?invocation
+    <doc text="An invocation object that describes the invocation of the converter.">
+    : invocation option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the conversion.">
+    : property_bag option;
+  tool
+    <doc text="A tool object that describes the converter.">
+    : tool;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_conversion">
+  <doc text="Describes how a converter transformed the output of a static analysis tool from the analysis tool's native output format into the SARIF format.">
+
+type configuration_override <ocaml attr="deriving show,eq,ord"> = {
+  configuration
+    <doc text="Specifies how the rule or notification was configured during the scan.">
+    : reporting_configuration;
+  descriptor
+    <doc text="A reference used to locate the descriptor whose configuration was overridden.">
+    : reporting_descriptor_reference;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the configuration override.">
+    : property_bag option;
+}
+  <doc text="Information about how a specific rule or notification was reconfigured at runtime.">
+
+type code_flow <ocaml attr="deriving show,eq,ord"> = {
+  ?message
+    <doc text="A message relevant to the code flow.">
+    : message option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the code flow.">
+    : property_bag option;
+  thread_flows
+    <json name="threadFlows">
+    <doc text="An array of one or more unique threadFlow objects, each of which describes the progress of a program through a thread of execution.">
+    : thread_flow list;
+}
+  <doc text="A set of threadFlows which together describe a pattern of code execution relevant to detecting a result.">  
+
+type external_properties <ocaml attr="deriving show,eq,ord"> = {
+  ?addresses
+    <doc text="Addresses that will be merged with a separate run.">
+    : address list option;
+  ?artifacts
+    <doc text="An array of artifact objects that will be merged with a separate run.">
+    : artifact list option;
+  ?conversion
+    <doc text="A conversion object that will be merged with a separate run.">
+    : conversion option;
+  ?driver
+    <doc text="The analysis tool object that will be merged with a separate run.">
+    : tool_component option;
+  ?extensions
+    <doc text="Tool extensions that will be merged with a separate run.">
+    : tool_component list option;
+  ?externalized_properties
+    <json name="externalizedProperties">
+    <doc text="Key/value pairs that provide additional information that will be merged with a separate run.">
+    : property_bag option;
+  ?graph
+    <doc text="An array of graph objects that will be merged with a separate run.">
+    : graph list option;
+  ?guid
+    <doc text="A stable, unique identifier for this external properties object, in the form of a GUID.">
+    : external_properties_guid option;
+  ?invocations
+    <doc text="Describes the invocation of the analysis tool that will be merged with a separate run.">
+    : invocation option;
+  ?logical_locations
+    <json name="logicalLocations">
+    <doc text="An array of logical locations such as namespaces, types or functions that will be merged with a separate run.">
+    : logical_location list option;
+  ?policies
+    <doc text="Tool policies that will be merged with a separate run.">
+    : tool_component list option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the external properties.">
+    : property_bag option;
+  ?results
+    <doc text="An array of result objects that will be merged with a separate run.">
+    : result option;
+  ?run_guid
+    <json name="runGuid">
+    <doc text="A stable, unique identifier for the run associated with this external properties object, in the form of a GUID.">
+    : external_properties_run_guid option;
+  ?schema
+    <doc text="The URI of the JSON schema corresponding to the version of the external property file format.">
+    : string option;
+  ?taxonomies
+    <doc text="Tool taxonomies that will be merged with a separate run.">
+    : tool_component list option;
+  ?thread_flow_locations
+    <json name="threadFlowLocations">
+    <doc text="An array of threadFlowLocation objects that will be merged with a separate run.">
+    : thread_flow_location list option;
+  ?translations
+    <doc text="Tool translations that will be merged with a separate run.">
+    : tool_component list option;
+  ?version
+    <doc text="The SARIF format version of this external properties object.">
+    : external_properties_version option;
+  ?web_requests
+    <json name="webRequests">
+    <doc text="Requests that will be merged with a separate run.">
+    : web_request list option;
+  ?web_responses
+    <json name="webResponses">
+    <doc text="Responses that will be merged with a separate run.">
+    : web_response list option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_external_properties">
+  <doc text="The top-level element of an external property file.">  
+
+type edge <ocaml attr="deriving show,eq,ord"> = {
+  id
+    <doc text="A string that uniquely identifies the edge within its graph.">
+    : string;
+  ?label
+    <doc text="A short description of the edge.">
+    : message option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the edge.">
+    : property_bag option;
+  source_node_id
+    <json name="sourceNodeId">
+    <doc text="Identifies the source node (the node at which the edge starts).">
+    : string;
+  target_node_id
+    <json name="targetNodeId">
+    <doc text="Identifies the target node (the node at which the edge ends).">
+    : string;
+}
+  <doc text="Represents a directed edge in a graph.">
+
+type external_properties_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_external_properties_guid">
+  <doc text="A stable, unique identifier for this external properties object, in the form of a GUID.">
+
+type exception_ <ocaml attr="deriving show,eq,ord"> = {
+  ?inner_exceptions
+    <json name="innerExceptions">
+    <doc text="An array of exception objects each of which is considered a cause of this exception.">
+    : exception_ list option;
+  ?kind
+    <doc text="A string that identifies the kind of exception, for example, the fully qualified type name of an object that was thrown, or the symbolic name of a signal.">
+    : string option;
+  ?message
+    <doc text="A message that describes the exception.">
+    : string option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the exception.">
+    : property_bag option;
+  ?stack
+    <doc text="The sequence of function calls leading to the exception.">
+    : stack option;
+}
+  <doc text="Describes a runtime exception encountered during the execution of an analysis tool.">
+
+type edge_traversal <ocaml attr="deriving show,eq,ord"> = {
+  edge_id
+    <json name="edgeId">
+    <doc text="Identifies the edge being traversed.">
+    : string;
+  ?final_state
+    <json name="finalState">
+    <doc text="The values of relevant expressions after the edge has been traversed.">
+    : hm_str_mms option;
+  ?message
+    <doc text="A message to display to the user as the edge is traversed.">
+    : message option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the edge traversal.">
+    : property_bag option;
+  ?step_over_edge_count
+    <json name="stepOverEdgeCount">
+    <doc text="The number of edge traversals necessary to return from a nested graph.">
+    : int64 option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_edge_traversal">
+  <doc text="Represents the traversal of a single edge during a graph traversal.">
+
+type external_properties_run_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_external_properties_run_guid">
+  <doc text="A stable, unique identifier for the run associated with this external properties object, in the form of a GUID.">
+
+type external_properties_version <ocaml attr="deriving show,eq,ord"> = [
+  | TwoDotOneDotZero <json name="2.1.0">
+]
+
+type external_property_file_references <ocaml attr="deriving show,eq,ord"> = {
+  ?addresses
+    <doc text="An array of external property files containing run.addresses arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?artifacts
+    <doc text="An array of external property files containing run.artifacts arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?conversion
+    <doc text="An external property file containing a run.conversion object to be merged with the root log file.">
+    : external_property_file_reference option;
+  ?driver
+    <doc text="An external property file containing a run.driver object to be merged with the root log file.">
+    : external_property_file_reference option;
+  ?extensions
+    <doc text="An array of external property files containing run.extensions arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?externalized_properties
+    <json name="externalizedProperties">
+    <doc text="An external property file containing a run.properties object to be merged with the root log file.">
+    : external_property_file_reference option;
+  ?graphs
+    <doc text="An array of external property files containing a run.graphs object to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?invocations
+    <doc text="An array of external property files containing run.invocations arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?logical_locations
+    <json name="logicalLocations">
+    <doc text="An array of external property files containing run.logicalLocations arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?policies
+    <doc text="An array of external property files containing run.policies arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the external property files.">
+    : property_bag option;
+  ?results
+    <doc text="An array of external property files containing run.results arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?taxonomies
+    <doc text="An array of external property files containing run.taxonomies arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?thread_flow_locations
+    <json name="threadFlowLocations">
+    <doc text="An array of external property files containing run.threadFlowLocations arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?translations
+    <doc text="An array of external property files containing run.translations arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?web_requests
+    <doc text="An array of external property files containing run.requests arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+  ?web_responses
+    <doc text="An array of external property files containing run.responses arrays to be merged with the root log file.">
+    : external_property_file_reference list option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_external_property_file_references">
+  <doc text="References to external property files that should be inlined with the content of a root log file.">
+
+type external_property_file_reference <ocaml attr="deriving show,eq,ord"> = {
+  ?guid
+    <doc text="A stable, unique identifier for the external property file in the form of a GUID.">
+    : external_property_file_reference_guid option;
+  ~item_count
+    <ocaml default="-1L">
+    <doc text="A non-negative integer specifying the number of items contained in the external property file.">
+    : int64;
+  ?location
+    <doc text="The location of the external property file.">
+    : artifact_location option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the external property file.">
+    : property_bag option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_external_property_file_reference">
+  <doc text="Contains information that enables a SARIF consumer to locate the external property file that contains the value of an externalized property associated with the run.">
+
+type external_property_file_reference_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_external_property_file_reference_guid">
+  <doc text="A stable, unique identifier for the external property file in the form of a GUID.">
+
+type fix <ocaml attr="deriving show,eq,ord"> = {
+  artifact_changes
+    <doc text="One or more artifact changes that comprise a fix for a result.">
+    : artifact_change list;
+  ?description
+    <doc text="A message that describes the proposed fix, enabling viewers to present the proposed change to an end user.">
+    : message option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the fix.">
+    : property_bag option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_fix">  
+  <doc text="A proposed fix for the problem represented by a result object. A fix specifies a set of artifacts to modify. For each artifact, it specifies a set of bytes to remove, and provides a set of new bytes to replace them.">
+
+type graph <ocaml attr="deriving show,eq,ord"> = {
+  ?description
+    <doc text="A description of the graph.">
+    : message option;
+  ?edges
+    <doc text="An array of edge objects representing the edges of the graph.">
+    : edge list option;
+  ?nodes
+    <doc text="An array of node objects representing the nodes of the graph.">
+    : node list option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the graph.">
+    : property_bag option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_graph">
+  <doc text="A network of nodes and directed edges that describes some aspect of the structure of the code (for example, a call graph).">
+
+type graph_traversal <ocaml attr="deriving show,eq,ord"> = [
+  | Variant0 of graph_traversal_variant0
+  | Variant1 of graph_traversal_variant1
+]
+  <doc text="Represents a path through a graph.">
+
+type graph_traversal_variant0 <ocaml attr="deriving show,eq,ord"> = {
+  ?description
+    <doc text="A description of this graph traversal.">
+    : message option;
+  ?edge_traversals
+    <json name="edgeTraversals">
+    <doc text="The sequences of edges traversed by this graph traversal.">
+    : edge_traversal list option;
+  ?immutable_state
+    <json name="immutableState">
+    <doc text="Values of relevant expressions at the start of the graph traversal that remain constant for the graph traversal.">
+    : hm_str_mms option;
+  ?initial_state
+    <json name="initialState">
+    <doc text="Values of relevant expressions at the start of the graph traversal that may change during graph traversal.">
+    : hm_str_mms option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the graph traversal.">
+    : property_bag option;
+  ~result_graph_index
+    <ocaml default="-1L">
+    <json name="resultGraphIndex">
+    <doc text="The index within the result.graphs to be associated with the result.">
+    : int64;
+  ~run_graph_index
+    <ocaml default="-1L">
+    <json name="runGraphIndex">
+    <doc text="The index within the run.graphs to be associated with the result.">
+    : int64;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_graph_traversal_variant0">
+
+type graph_traversal_variant1 <ocaml attr="deriving show,eq,ord"> = {
+  ?description
+    <doc text="A description of this graph traversal.">
+    : message option;
+  ?edge_traversals
+    <json name="edgeTraversals">
+    <doc text="The sequences of edges traversed by this graph traversal.">
+    : edge_traversal list option;
+  ?immutable_state
+    <json name="immutableState">
+    <doc text="Values of relevant expressions at the start of the graph traversal that remain constant for the graph traversal.">
+    : hm_str_mms option;
+  ?initial_state
+    <json name="initialState">
+    <doc text="Values of relevant expressions at the start of the graph traversal that may change during graph traversal.">
+    : hm_str_mms option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the graph traversal.">
+    : property_bag option;
+  ~result_graph_index
+    <ocaml default="-1L">
+    <json name="resultGraphIndex">
+    <doc text="The index within the result.graphs to be associated with the result.">
+    : int64;
+  ~run_graph_index
+    <ocaml default="-1L">
+    <json name="runGraphIndex">
+    <doc text="The index within the run.graphs to be associated with the result.">
+    : int64;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_graph_traversal_variant1">
+
+type hm_str_str <ocaml attr="deriving show,eq,ord"> = (string * string) list <json repr="object">
+
+type hm_str_mms <ocaml attr="deriving show,eq,ord"> = (string * multiformat_message_string) list <json repr="object">
+
+type hm_str_al <ocaml attr="deriving show,eq,ord"> = (string * artifact_location) list <json repr="object">
+
+type int64 <ocaml attr="deriving show,eq,ord"> = int <ocaml repr="int64">
+
+type invocation <ocaml attr="deriving show,eq,ord"> = {
+  ?account
+    <doc text="The account under which the invocation occurred.">
+    : string option;
+  ?arguments
+    <doc text="An array of strings, containing in order the command line arguments passed to the tool from the operating system.">
+    : string option;
+  ?command_line
+    <json name="commandLine">
+    <doc text="The command line used to invoke the tool.">
+    : string option;
+  ?end_time_utc
+    <json name="endTimeUtc">
+    <doc text="The Coordinated Universal Time (UTC) date and time at which the invocation ended. See \"Date/time properties\" in the SARIF spec for the required format.">
+    : string option;
+  ?environment_variables
+    <json name="environmentVariables">
+    <doc text="The environment variables associated with the analysis tool process, expressed as key/value pairs.">
+    : hm_str_str option;
+  ?executable_location
+    <json name="executableLocation">
+    <doc text="An absolute URI specifying the location of the executable that was invoked.">
+    : artifact_location option;
+  execution_successful
+    <json name="executionSuccessful">
+    <doc text="Specifies whether the tool's execution completed successfully.">
+    : bool;
+  ?exit_code
+    <doc text="The process exit code.">
+    : int64 option;
+  ?exit_code_description
+    <json name="exitCodeDescription">
+    <doc text="The reason for the process exit.">
+    : string option;
+  ?exit_signal_name
+    <json name="exitSignalName">
+    <doc text="The name of the signal that caused the process to exit.">
+    : string option;
+  ?exit_signal_number
+    <json name="exitSignalNumber">
+    <doc text="The numeric value of the signal that caused the process to exit.">
+    : int64 option;
+  ?notification_configuration_overrides
+    <json name="notificationConfigurationOverrides">
+    <doc text="An array of configurationOverride objects that describe notifications related runtime overrides.">
+    : configuration_override list option;
+  ?process_id
+    <json name="processId">
+    <doc text="The id of the process in which the invocation occurred.">
+    : int64 option;
+  ?process_start_failure_message
+    <json name="processStartFailureMessage">
+    <doc text="The reason given by the operating system that the process failed to start.">
+    : string option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the invocation.">
+    : property_bag option;
+  ?response_files
+    <json name="responseFiles">
+    <doc text="The locations of any response files specified on the tool's command line.">
+    : artifact_location list option;
+  ?rule_configuration_overrides
+    <json name="ruleConfigurationOverrides">
+    <doc text="An array of configurationOverride objects that describe rules related runtime overrides.">
+    : configuration_override list option;
+  ?start_time_utc
+    <json name="startTimeUtc">
+    <doc text="The Coordinated Universal Time (UTC) date and time at which the invocation started. See \"Date/time properties\" in the SARIF spec for the required format.">
+    : string option;
+  ?stderr
+    <doc text="A file containing the standard error stream from the process that was invoked.">
+    : artifact_location option;
+  ?stdin
+    <doc text="A file containing the standard input stream to the process that was invoked.">
+    : artifact_location option;
+  ?stdout
+    <doc text="A file containing the standard output stream from the process that was invoked.">
+    : artifact_location option;
+  ?stdout_stderr
+    <json name="stdoutStderr">
+    <doc text="A file containing the interleaved standard output and standard error stream from the process that was invoked.">
+    : artifact_location option;
+  ?tool_configuration_notifications
+    <json name="toolConfigurationNotifications">
+    <doc text="A list of conditions detected by the tool that are relevant to the tool's configuration.">
+    : notification list option;
+  ?tool_execution_notifications
+    <json name="toolExecutionNotifications">
+    <doc text="A list of runtime conditions detected by the tool during the analysis.">
+    : notification list option;
+  ?working_directory
+    <json name="workingDirectory">
+    <doc text="The working directory for the invocation.">
+    : artifact_location option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_invocation">
+  <doc text="The runtime environment of the analysis tool run.">
+
+type location <ocaml attr="deriving show,eq,ord"> = {
+  ?annotations
+    <doc text="A set of regions relevant to the location.">
+    : region list option;
+  ~id
+    <ocaml default="-1L">
+    <doc text="Value that distinguishes this location from all other locations within a single result object.">
+    : int64;
+  ?logical_locations
+    <json name="logicalLocations">
+    <doc text="The logical locations associated with the result.">
+    : logical_location list option;
+  ?message
+    <doc text="A message relevant to the location.">
+    : message option;
+  ?physical_location
+    <json name="physicalLocation">
+    <doc text="Identifies the artifact and region.">
+    : physical_location option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the location.">
+    : property_bag option;
+  ?relationships
+    <doc text="An array of objects that describe relationships between this location and others.">
+    : location_relationship list option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_location">
+  <doc text="A location within a programming artifact.">
+
+type location_relationship <ocaml attr="deriving show,eq,ord"> = {
+  ?description
+    <doc text="A description of the location relationship.">
+    : message option;
+  ?kinds
+    <doc text="A set of distinct strings that categorize the relationship. Well-known kinds include 'includes', 'isIncludedBy' and 'relevant'.">
+    : string list option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the location relationship.">
+    : property_bag option;
+  target
+    <doc text="A reference to the related location.">
+    : int64;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_location_relationship">
+  <doc text="Information about the relation of one location to another.">
+
+type logical_location <ocaml attr="deriving show,eq,ord"> = {
+  ?decorated_name
+    <json name="decoratedName">
+    <doc text="The machine-readable name for the logical location, such as a mangled function name provided by a C++ compiler that encodes calling convention, return type and other details along with the function name.">
+    : string option;
+  ?fully_qualified_name
+    <json name="fullyQualifiedName">
+    <doc text="The human-readable fully qualified name of the logical location.">
+    : string option;
+  ~index
+    <ocaml default="-1L">
+    <doc text="The index within the logical locations array.">
+    : int64;
+  ?kind
+    <doc text="The type of construct this logical location component refers to. Should be one of 'function', 'member', 'module', 'namespace', 'parameter', 'resource', 'returnType', 'type', 'variable', 'object', 'array', 'property', 'value', 'element', 'text', 'attribute', 'comment', 'declaration', 'dtd' or 'processingInstruction', if any of those accurately describe the construct.">
+    : string option;
+  ?name
+    <doc text="Identifies the construct in which the result occurred. For example, this property might contain the name of a class or a method.">
+    : string option;
+  ~parent_index
+    <ocaml default="-1L">
+    <doc text="Identifies the index of the immediate parent of the construct in which the result was detected. For example, this property might point to a logical location that represents the namespace that holds a type.">
+    : int64;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the logical location.">
+    : property_bag option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_logical_location">
+  <doc text="A logical location of a construct that produced a result.">
+
+type multiformat_message_string <ocaml attr="deriving show,eq,ord"> = {
+  ?markdown
+    <doc text="A Markdown message string or format string.">
+    : string option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the message.">
+    : property_bag option;
+  text
+    <doc text="A plain text message string or format string.">
+    : string;
+}
+  <doc text="A message string or message format string rendered in multiple formats.">  
+
+type message <ocaml attr="deriving show,eq,ord"> = {
+  ?arguments
+    <doc text="An array of strings to substitute into the message string.">
+    : string list option;
+  ?id
+    <doc text="The identifier for this message.">
+    : string option;
+  ?markdown
+    <doc text="A Markdown message string.">
+    : string option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the message.">
+    : property_bag option;
+  ?text
+    <doc text="A plain text message string.">
+    : string option;
+}
+  <doc text="Encapsulates a message intended to be read by the end user.">
+
+type node <ocaml attr="deriving show,eq,ord"> = {
+  ?children
+    <doc text="Array of child nodes.">
+    : node list option;
+  id
+    <doc text="A string that uniquely identifies the node within its graph.">
+    : string;
+  ?label
+    <doc text="A short description of the node.">
+    : message option;
+  ?location
+    <doc text="A code location associated with the node.">
+    : location option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the node.">
+    : property_bag option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_node">
+  <doc text="Represents a node in a graph.">
+
+type notification <ocaml attr="deriving show,eq,ord"> = {
+  ?associated_rule
+    <json name="associatedRule">
+    <doc text="A reference used to locate the rule descriptor associated with this notification.">
+    : reporting_descriptor_reference option;
+  ?descriptor
+    <doc text="A reference used to locate the descriptor relevant to this notification.">
+    : reporting_descriptor_reference option;
+  ?exception_
+    <json name="exception">
+    <doc text="The runtime exception, if any, relevant to this notification.">
+    : exception_ option;
+  ?level
+    <doc text="A value specifying the severity level of the notification.">
+    : notification_level option;
+  ?locations
+    <doc text="The locations relevant to this notification.">
+    : location list option;
+  message
+    <doc text="A message that describes the condition that was encountered.">
+    : message;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the notification.">
+    : property_bag option;
+  ?thread_id
+    <json name="threadId">
+    <doc text="The thread identifier of the code that generated the notification.">
+    : int64 option;
+  ?time_utc
+    <json name="timeUtc">
+    <doc text="The Coordinated Universal Time (UTC) date and time at which the analysis tool generated the notification.">
+    : string option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_notification">
+  <doc text="Describes a condition relevant to the tool itself, as opposed to being relevant to a target being analyzed by the tool.">
+
+type notification_level <ocaml attr="deriving show,eq,ord"> = [
+  | None <json name="none">
+  | Note <json name="note">
+  | Warning <json name="warning">
+  | Error <json name="error">
+]
+  <doc text="A value specifying the severity level of the notification.">
+
+type property_bag <ocaml attr="deriving show,eq,ord"> = hm_str_str <ocaml valid="Sarif_v_2_1_0_util.validate_property_bag">
+  <doc text="Key/value pairs that provide additional information about the object.">
+
+type physical_location <ocaml attr="deriving show,eq,ord"> = {
+  ?address
+    <doc text="The address of the location.">
+    : address option;
+  ?artifact_location
+    <json name="artifactLocation">
+    <doc text="The location of the artifact.">
+    : artifact_location option;
+  ?context_region
+    <json name="contextRegion">
+    <doc text="Specifies a portion of the artifact that encloses the region. Allows a viewer to display additional context around the region.">
+    : region option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the physical location.">
+    : property_bag option;
+  ?region
+    <doc text="Specifies a portion of the artifact.">
+    : region option;
+}
+  <doc text="A physical location relevant to a result. Specifies a reference to a programming artifact together with a range of bytes or characters within that artifact.">
+
+type reporting_descriptor <ocaml attr="deriving show,eq,ord"> = {
+  ?default_configuration
+    <json name="defaultConfiguration">
+    <doc text="Default reporting configuration information.">
+    : reporting_configuration option;
+  ?deprecated_guids
+    <json name="deprecatedGuids">
+    <doc text="An array of unique identifies in the form of a GUID by which this report was known in some previous version of the analysis tool.">
+    : reporting_descriptor_deprecated_guids_item list option;
+  ?deprecated_ids
+    <json name="deprecatedIds">
+    <doc text="An array of stable, opaque identifiers by which this report was known in some previous version of the analysis tool.">
+    : string list option;
+  ?deprecated_names
+    <json name="deprecatedNames">
+    <doc text="An array of readable identifiers by which this report was known in some previous version of the analysis tool.">
+    : string list option;
+  ?full_description
+    <json name="fullDescription">
+    <doc text="A description of the report. Should, as far as possible, provide details sufficient to enable resolution of any problem indicated by the result.">
+    : multiformat_message_string option;
+  ?guid
+    <doc text="A unique identifier for the reporting descriptor in the form of a GUID.">
+    : reporting_descriptor_guid option;
+  ?help
+    <doc text="Provides the primary documentation for the report, useful when there is no online documentation.">
+    : multiformat_message_string option;
+  ?help_uri
+    <json name="helpUri">
+    <doc text="A URI where the primary documentation for the report can be found.">
+    : string option;
+  id
+    <doc text="A stable, opaque identifier for the report.">
+    : string;
+  ?message_strings
+    <json name="messageStrings">
+    <doc text="A set of name/value pairs with arbitrary names. Each value is a multiformatMessageString object, which holds message strings in plain text and (optionally) Markdown format. The strings can include placeholders, which can be used to construct a message in combination with an arbitrary number of additional string arguments.">
+    : hm_str_mms option;
+  ?name
+    <doc text="A report identifier that is understandable to an end user.">
+    : string option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the report.">
+    : property_bag option;
+  ?relationships
+    <doc text="An array of objects that describe relationships between this reporting descriptor and others.">
+    : reporting_descriptor_relationship list option;
+  ?short_description
+    <doc text="A concise description of the report. Should be a single sentence that is understandable when visible space is limited to a single line of text.">
+    : multiformat_message_string option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_reporting_descriptor">
+  <doc text="Metadata that describes a specific report produced by the tool, as part of the analysis it provides or its runtime reporting.">
+
+type reporting_configuration <ocaml attr="deriving show,eq,ord"> = {
+  ~enabled
+    <ocaml default="true">
+    <doc text="Specifies whether the report may be produced during the scan.">
+    : bool;
+  ?level
+    <doc text="Specifies the failure level for the report.">
+    : reporting_configuration_level option;
+  ?parameters
+    <doc text="Contains configuration information specific to a report.">
+    : property_bag option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the reporting configuration.">
+    : property_bag option;
+  ~rank
+    <ocaml default="-1L">
+    : int64;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_reporting_configuration">
+  <doc text="Information about a rule or notification that can be configured at runtime.">
+
+type reporting_configuration_level <ocaml attr="deriving show,eq,ord"> = [
+  | None <json name="none">
+  | Note <json name="note">
+  | Warning <json name="warning">
+  | Error <json name="error">
+]
+  <doc text="Specifies the failure level for the report.">
+
+type reporting_descriptor_deprecated_guids_item <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_reporting_descriptor_deprecated_guids_item">
+  <doc text="ReportingDescriptorDeprecatedGuidsItem">
+
+type reporting_descriptor_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_reporting_descriptor_guid">
+  <doc text="A unique identifier for the reporting descriptor in the form of a GUID.">
+
+type reporting_descriptor_relationship <ocaml attr="deriving show,eq,ord"> = {
+  ?description
+    <doc text="A description of the reporting descriptor relationship.">
+    : message option;
+  ?kinds
+    <doc text="A set of distinct strings that categorize the relationship. Well-known kinds include 'canPrecede', 'canFollow', 'willPrecede', 'willFollow', 'superset', 'subset', 'equal', 'disjoint', 'relevant', and 'incomparable'.">
+    : string list option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the reporting descriptor reference.">
+    : property_bag option;
+  target
+    <doc text="A reference to the related reporting descriptor.">
+    : reporting_descriptor_reference;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_reporting_descriptor_relationship">
+  <doc text="Information about the relation of one reporting descriptor to another.">
+
+type reporting_descriptor_reference <ocaml attr="deriving show,eq,ord"> = {
+  ?guid
+    <doc text="A guid that uniquely identifies the descriptor.">
+    : reporting_descriptor_reference_guid option;
+  ?id
+    <doc text="The id of the descriptor.">
+    : string option;
+  ~index
+    <ocaml default="-1L">
+    <doc text="The index into an array of descriptors in toolComponent.ruleDescriptors, toolComponent.notificationDescriptors, or toolComponent.taxonomyDescriptors, depending on context.">
+    : int64;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the reporting descriptor reference.">
+    : property_bag option;
+  ?tool_component
+    <json name="toolComponent">
+    <doc text="A reference used to locate the toolComponent associated with the descriptor.">
+    : tool_component_reference option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_reporting_descriptor_reference">
+  <doc text="Information about how to locate a relevant reporting descriptor.">
+ 
+type reporting_descriptor_reference_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_reporting_descriptor_reference_guid">
+  <doc text="A guid that uniquely identifies the descriptor.">
+
+type region <ocaml attr="deriving show,eq,ord"> = {
+  ?byte_length
+    <json name="byteLength">
+    <doc text="The length of the region in bytes.">
+    : int64 option;
+  ~byte_offset
+    <ocaml default="-1L">
+    <json name="byteOffset">
+    <doc text="The zero-based offset from the beginning of the artifact of the first byte in the region.">
+    : int64;
+  ?char_length
+    <json name="charLength">
+    <doc text="The length of the region in characters.">
+    : int64 option;
+  ~char_offset
+    <ocaml default="-1L">
+    <json name="charOffset">
+    <doc text="The zero-based offset from the beginning of the artifact of the first character in the region.">
+    : int64;
+  ?end_column
+    <json name="endColumn">
+    <doc text="The column number of the character following the end of the region.">
+    : int64 option;
+  ?end_line
+    <json name="endLine">
+    <doc text="The line number of the last character in the region.">
+    : int64 option;
+  ?message
+    <doc text="A message relevant to the region.">
+    : message option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the region.">
+    : property_bag option;
+  ?snippet
+    <doc text="The portion of the artifact contents within the specified region.">
+    : artifact_content option;
+  ?source_language
+    <json name="sourceLanguage">
+    <doc text="Specifies the source language, if any, of the portion of the artifact specified by the region object.">
+    : string option;
+  ?start_column
+    <json name="startColumn">
+    <doc text="The column number of the first character in the region.">
+    : int64 option;
+  ?start_line
+    <json name="startLine">
+    <doc text="The line number of the first character in the region.">
+    : int64 option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_region">
+  <doc text="A region within an artifact where a result was detected.">
+
+type result <ocaml attr="deriving show,eq,ord"> = {
+  ?analysis_target
+    <json name="analysisTarget">
+    <doc text="Identifies the artifact that the analysis tool was instructed to scan. This need not be the same as the artifact where the result actually occurred.">
+    : artifact_location option;
+  ?attachments
+    <doc text="A set of artifacts relevant to the result.">
+    : attachment list option;
+  ?baseline_state
+    <json name="baselineState">
+    <doc text="The state of a result relative to a baseline of a previous run.">
+    : result_baseline_state option;
+  ?code_flows
+    <json name="codeFlows">
+    <doc text="An array of 'codeFlow' objects relevant to the result.">
+    : code_flow list option;
+  ?correlation_guid
+    <json name="correlationGuid">
+    <doc text="A stable, unique identifier for the equivalence class of logically identical results to which this result belongs, in the form of a GUID.">
+    : result_correlation_guid option;
+  ?fingerprints
+    <doc text="A set of strings each of which individually defines a stable, unique identity for the result.">
+    : hm_str_str option;
+  ?fixes
+    <doc text="An array of 'fix' objects, each of which represents a proposed fix to the problem indicated by the result.">
+    : fix list option;
+  ?graph_traversals
+    <json name="graphTraversals">
+    <doc text="An array of one or more unique 'graphTraversal' objects.">
+    : graph_traversal list option;
+  ?graphs
+    <doc text="An array of zero or more unique graph objects associated with the result.">
+    : graph list option;
+  ?guid
+    <doc text="A stable, unique identifier for the result in the form of a GUID.">
+    : result_guid option;
+  ?hosted_viewer_uri
+    <json name="hostedViewerUri">
+    <doc text="An absolute URI at which the result can be viewed.">
+    : string option;
+  ?kind
+    <doc text="A value that categorizes results by evaluation state.">
+    : result_kind option;
+  ?level
+    <doc text="A value specifying the severity level of the result.">
+    : result_level option;
+  ?locations
+    <doc text="The set of locations where the result was detected. Specify only one location unless the problem indicated by the result can only be corrected by making a change at every specified location.">
+    : location list option;
+  message
+    <doc text="A message that describes the result. The first sentence of the message only will be displayed when visible space is limited.">
+    : message;
+  ?occurrence_count
+    <json name="occurrenceCount">
+    <doc text="A positive integer specifying the number of times this logically unique result was observed in this run.">
+    : int64 option;
+  ?partial_fingerprints
+    <doc text="A set of strings that contribute to the stable, unique identity of the result.">
+    : hm_str_str option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the result.">
+    : property_bag option;
+  ?provenance
+    <doc text="Information about how and when the result was detected.">
+    : result_provenance option;
+  ~rank 
+    <ocaml default="-1L">
+    : int64;
+  ?related_locations
+    <json name="relatedLocations">
+    <doc text="A set of locations relevant to this result.">
+    : location list option;
+  ?rule
+    <doc text="A reference used to locate the rule descriptor relevant to this result.">
+    : reporting_descriptor_reference option;
+  ?rule_id
+    <json name="ruleId">
+    <doc text="The stable, unique identifier of the rule, if any, to which this result is relevant.">
+    : string option;
+  ~rule_index
+    <ocaml default="-1L">
+    <json name="ruleIndex">
+    <doc text="The index within the tool component rules array of the rule object associated with this result.">
+    : int64;
+  ?stacks
+    <doc text="An array of 'stack' objects relevant to the result.">
+    : stack list option;
+  ?suppressions
+    <doc text="A set of suppressions relevant to this result.">
+    : suppression list option;
+  ?taxa
+    <doc text="An array of references to taxonomy reporting descriptors that are applicable to the result.">
+    : reporting_descriptor_reference list option;
+  ?web_request
+    <json name="webRequest">
+    <doc text="A web request associated with this result.">
+    : web_request option;
+  ?web_response
+    <json name="webResponse">
+    <doc text="A web response associated with this result.">
+    : web_response option;
+  ?work_item_uris
+    <doc text="The URIs of the work items associated with this result.">
+    : string list option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_result">
+  <doc text="A result produced by an analysis tool.">
+
+type result_correlation_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_result_correlation_guid">
+  <doc text="A stable, unique identifier for the equivalence class of logically identical results to which this result belongs, in the form of a GUID.">
+
+type result_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_result_guid">
+  <doc text="A stable, unique identifier for the result in the form of a GUID.">
+
+type rectangle <ocaml attr="deriving show,eq,ord"> = {
+  ?bottom
+    : float option;
+  ?left
+    : float option;
+  ?message
+    <doc text="A message relevant to the rectangle.">
+    : message option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the rectangle.">
+    : property_bag option;
+  ?right
+    : float option;
+  ?top
+    : float option;
+}
+  <doc text="An area within an image.">
+
+type result_baseline_state <ocaml attr="deriving show,eq,ord"> = [
+  | New <json name="new">
+  | Unchanged <json name="unchanged">
+  | Updated <json name="updated">
+  | Absent <json name="absent">
+]
+  <doc text="The state of a result relative to a baseline of a previous run.">
+
+type replacement <ocaml attr="deriving show,eq,ord"> = {
+  deleted_region
+    <doc text="The region of the artifact to delete.">
+    : region;
+  ?inserted_content
+    <json name="insertedContent">
+    <doc text="The content to insert at the location specified by the 'deletedRegion' property.">
+    : artifact_content option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the replacement.">
+    : property_bag option;
+}
+  <doc text="The replacement of a single region of an artifact.">
+
+type result_kind <ocaml attr="deriving show,eq,ord"> = [
+  | NotApplicable <json name="notApplicable">
+  | Pass <json name="pass">
+  | Fail <json name="fail">
+  | Review <json name="review">
+  | Open <json name="open">
+  | Informational <json name="informational">
+]
+  <doc text="A value that categorizes results by evaluation state.">
+
+type result_level <ocaml attr="deriving show,eq,ord"> = [
+  | None <json name="none">
+  | Note <json name="note">
+  | Warning <json name="warning">
+  | Error <json name="error">
+]
+  <doc text="A value specifying the severity level of the result.">
+
+type result_provenance <ocaml attr="deriving show,eq,ord"> = {
+  ?conversion_sources
+    <json name="conversionSources">
+    <doc text="An array of physicalLocation objects which specify the portions of an analysis tool's output that a converter transformed into the result.">
+    : physical_location list option;
+  ?first_detection_run_guid
+    <json name="firstDetectionRunGuid">
+    <doc text="A GUID-valued string equal to the automationDetails.guid property of the run in which the result was first detected.">
+    : result_provenance_first_detection_run_guid option;
+  ?first_detection_time_utc
+    <json name="firstDetectionTimeUtc">
+    <doc text="The Coordinated Universal Time (UTC) date and time at which the result was first detected. See \"Date/time properties\" in the SARIF spec for the required format.">
+    : string option;
+  ~invocation_index
+    <ocaml default="-1L">
+    <json name="invocationIndex">
+    <doc text="The index within the run.invocations array of the invocation object which describes the tool invocation that detected the result.">
+    : int64;
+  ?last_detection_run_guid
+    <json name="lastDetectionRunGuid">
+    <doc text="A GUID-valued string equal to the automationDetails.guid property of the run in which the result was most recently detected.">
+    : result_provenance_last_detection_run_guid option;
+  ?last_detection_time_utc
+    <json name="lastDetectionTimeUtc">
+    <doc text="The Coordinated Universal Time (UTC) date and time at which the result was most recently detected. See \"Date/time properties\" in the SARIF spec for the required format.">
+    : string option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the result.">
+    : property_bag option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_result_provenance">
+  <doc text="Contains information about how and when a result was detected.">
+
+type result_provenance_first_detection_run_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_result_provenance_first_detection_run_guid">
+  <doc text="A GUID-valued string equal to the automationDetails.guid property of the run in which the result was first detected.">
+
+type result_provenance_last_detection_run_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_result_provenance_last_detection_run_guid">
+  <doc text="A GUID-valued string equal to the automationDetails.guid property of the run in which the result was most recently detected.">
+
+type run <ocaml attr="deriving show,eq,ord"> = {
+  ?addresses
+    <doc text="Addresses associated with this run instance, if any.">
+    : address list option;
+  ?artifacts
+    <doc text="An array of artifact objects relevant to the run.">
+    : artifact list option;
+  ?automation_details
+    <json name="automationDetails">
+    <doc text="Automation details that describe this run.">
+    : run_automation_details option;
+  ?baseline_guid
+    <json name="baselineGuid">
+    <doc text="The 'guid' property of a previous SARIF 'run' that comprises the baseline that was used to compute result 'baselineState' properties for the run.">
+    : run_baseline_guid option;
+  ?column_kind
+    <json name="columnKind">
+    <doc text="Specifies the unit in which the tool measures columns.">
+    : run_column_kind option;
+  ?conversion
+    <doc text="A conversion object that describes how a converter transformed an analysis tool's native reporting format into the SARIF format.">
+    : conversion option;
+  ?default_encoding
+    <json name="defaultEncoding">
+    <doc text="Specifies the default encoding for any artifact object that refers to a text file.">
+    : string option;
+  ?default_source_language
+    <json name="defaultSourceLanguage">
+    <doc text="Specifies the default source language for any artifact object that refers to a text file that contains source code.">
+    : string option;
+  ?external_property_file_references
+    <json name="externalPropertyFileReferences">
+    <doc text="References to external property files that should be inlined with the content of a root log file.">
+    : external_property_file_references option;
+  ?graphs
+    <doc text="An array of zero or more unique graph objects associated with the run.">
+    : graph list option;
+  ?invocations
+    <doc text="Describes the invocation of the analysis tool.">
+    : invocation list option;
+  ?language
+    <doc text="The language of the messages emitted into the log file during this run (expressed as an ISO 639-1 two-letter lowercase culture code) and an optional region (expressed as an ISO 3166-1 two-letter uppercase subculture code associated with a country or region). The casing is recommended but not required (in order for this data to conform to RFC5646).">
+    : run_language option;
+  ?logical_locations
+    <json name="logicalLocations">
+    <doc text="An array of logical locations such as namespaces, types or functions.">
+    : logical_location list option;
+  ~newline_sequences
+    <ocaml default="[\"\\r\\n\"; \"\\n\"]">
+    <json name="newlineSequences">
+    <doc text="An ordered list of character sequences that were treated as line breaks when computing region information for the run.">
+    : string list;
+  ?original_uri_base_ids
+    <json name="originalUriBaseIds">
+    <doc text="The artifact location specified by each uriBaseId symbol on the machine where the tool originally ran.">
+    : hm_str_al option;
+  ?policies
+    <doc text="Contains configurations that may potentially override both reportingDescriptor.defaultConfiguration (the tool's default severities) and invocation.configurationOverrides (severities established at run-time from the command line).">
+    : tool_component list option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the run.">
+    : property_bag option;
+  ?redaction_tokens
+    <json name="redactionTokens">
+    <doc text="An array of strings used to replace sensitive information in a redaction-aware property.">
+    : string list option;
+  ?results
+    <doc text="The set of results contained in an SARIF log. The results array can be omitted when a run is solely exporting rules metadata. It must be present (but may be empty) if a log file represents an actual scan.">
+    : result list option;
+  ?run_aggregates
+    <json name="runAggregates">
+    <doc text="Automation details that describe the aggregate of runs to which this run belongs.">
+    : run_automation_details list option;
+  ?special_locations
+    <json name="specialLocations">
+    <doc text="A specialLocations object that defines locations of special significance to SARIF consumers.">
+    : special_locations option;
+  ?taxonomies
+    <doc text="An array of toolComponent objects relevant to a taxonomy in which results are categorized.">
+    : tool_component list option;
+  ?thread_flow_locations
+    <json name="threadFlowLocations">
+    <doc text="An array of threadFlowLocation objects cached at run level.">
+    : thread_flow_location list option;
+  tool
+    <doc text="Information about the tool or tool pipeline that generated the results in this run. A run can only contain results produced by a single tool or tool pipeline. A run can aggregate results from multiple log files, as long as context around the tool run (tool command-line arguments and the like) is identical for all aggregated files.">
+    : tool;
+  ?translations
+    <doc text="Specifies the revision in version control of the artifacts that were scanned.">
+    : tool_component list option;
+  ?version_control_provenance
+    <json name="versionControlProvenance">
+    <doc text="Specifies the revision in version control of the artifacts that were scanned.">
+    : version_control_details list option;
+  ?web_requests
+    <json name="webRequests">
+    <doc text="An array of request objects cached at run level.">
+    : web_request list option;
+  ?web_responses
+    <json name="webResponses">
+    <doc text="An array of response objects cached at run level.">
+    : web_response list option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_run">
+  <doc text="Describes a single run of an analysis tool, and contains the reported output of that run.">
+
+type run_automation_details <ocaml attr="deriving show,eq,ord"> = {
+  ?correlation_guid
+    <json name="correlationGuid">
+    <doc text="A stable, unique identifier for the equivalence class of runs to which this object's containing run object belongs in the form of a GUID.">
+    : run_automation_details_correlation_guid option;
+  ?description
+    <doc text="A description of the identity and role played within the engineering system by this object's containing run object.">
+    : message option;
+  ?guid
+    <doc text="A stable, unique identifier for this object's containing run object in the form of a GUID.">
+    : run_automation_details_guid option;
+  ?id
+    <doc text="A hierarchical string that uniquely identifies this object's containing run object.">
+    : string option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the run automation details.">
+    : property_bag option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_run_automation_details">
+  <doc text="Information that describes a run's identity and role within an engineering system process.">
+
+type run_column_kind <ocaml attr="deriving show,eq,ord"> = [
+  | Utf16CodeUnits <json name="utf16CodeUnits">
+  | UnicodeCodePoints <json name="unicodeCodePoints">
+]
+  <doc text="Specifies the unit in which the tool measures columns.">
+
+type run_language <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_run_language">
+  <doc text="The language of the messages emitted into the log file during this run (expressed as an ISO 639-1 two-letter lowercase culture code) and an optional region (expressed as an ISO 3166-1 two-letter uppercase subculture code associated with a country or region). The casing is recommended but not required (in order for this data to conform to RFC5646).">
+
+type run_automation_details_correlation_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_run_automation_details_correlation_guid">
+  <doc text="A stable, unique identifier for the equivalence class of runs to which this object's containing run object belongs in the form of a GUID.">
+
+type run_automation_details_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_run_automation_details_guid">
+  <doc text="A stable, unique identifier for this object's containing run object in the form of a GUID.">
+
+type run_baseline_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_run_baseline_guid">
+  <doc text="The 'guid' property of a previous SARIF 'run' that comprises the baseline that was used to compute result 'baselineState' properties for the run.">
+
+type special_locations <ocaml attr="deriving show,eq,ord"> = {
+  ?display_base
+    <json name="displayBase">
+    <doc text="Provides a suggestion to SARIF consumers to display file paths relative to the specified location.">
+    : artifact_location option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the special locations.">
+    : property_bag option;
+}
+  <doc text="Defines locations of special significance to SARIF consumers.">
+
+type sarif_version <ocaml attr="deriving show,eq,ord"> = [
+  | TwoDotOneDotZero <json name="2.1.0">
+]
+
+type stack <ocaml attr="deriving show,eq,ord"> = {
+  frames
+    <doc text="An array of stack frames that represents a sequence of calls, rendered in reverse chronological order, that comprise the call stack.">
+    : stack_frame list;
+  ?message
+    <doc text="A message relevant to this call stack.">
+    : message option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the stack.">
+    : property_bag option;
+}
+  <doc text="A call stack that is relevant to a result.">
+
+type stack_frame <ocaml attr="deriving show,eq,ord"> = {
+  ?location
+    <doc text="The location to which this stack frame refers.">
+    : location option;
+  ?module_
+  <json name="module">
+    <doc text="The name of the module that contains the code of this stack frame.">
+    : string option;
+  ?parameters
+    <doc text="The parameters of the call that is executing.">
+    : string list option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the stack frame.">
+    : property_bag option;
+  ?thread_id
+    <json name="threadId">
+    <doc text="The thread identifier of the stack frame.">
+    : int64 option;
+}
+  <doc text="A function call within a stack trace.">
+
+type suppression <ocaml attr="deriving show,eq,ord"> = {
+  ?guid
+    <doc text="A stable, unique identifier for the suprression in the form of a GUID.">
+    : suppression_guid option;
+  ?justification
+    <doc text="A string representing the justification for the suppression.">
+    : string option;
+  kind
+    <doc text="A string that indicates where the suppression is persisted.">
+    : suppression_kind;
+  ?location
+    <doc text="Identifies the location associated with the suppression.">
+    : location option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the suppression.">
+    : property_bag option;
+  ?status
+    <doc text="A string that indicates the review status of the suppression.">
+    : suppression_status option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_suppression">
+  <doc text="A suppression that is relevant to a result.">
+
+type suppression_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_suppression_guid">
+  <doc text="A stable, unique identifier for the suprression in the form of a GUID.">
+
+type suppression_kind <ocaml attr="deriving show,eq,ord"> = [
+  | InSource <json name="inSource">
+  | External <json name="external">
+]
+  <doc text="A string that indicates where the suppression is persisted.">
+
+type suppression_status <ocaml attr="deriving show,eq,ord"> = [
+  | Accepted <json name="accepted">
+  | UnderReview <json name="underReview">
+  | Rejected <json name="rejected">
+]
+  <doc text="A string that indicates the review status of the suppression.">
+
+type sarif_json_schema <ocaml attr="deriving show,eq,ord"> = {
+  ?inline_external_properties
+    <json name="inlineExternalProperties">
+    <doc text="References to external property files that share data between runs.">
+    : external_properties list option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the log file.">
+    : property_bag option;
+  runs
+    <doc text="The set of runs contained in this log file.">
+    : run list;
+  ?schema
+    <json name="$schema">
+    <doc text="The URI of the JSON schema corresponding to the version.">
+    : string option;
+  version
+    <doc text="The SARIF format version of this log file.">
+    : sarif_version;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_sarif_json_schema">
+  <doc text="Core type: Static Analysis Results Format (SARIF) Version 2.1.0 JSON Schema: a standard format for the output of static analysis tools.">
+
+type tool <ocaml attr="deriving show,eq,ord"> = {
+  driver
+    <doc text="The analysis tool that was run.">
+    : tool_component;
+  ?extensions
+    <doc text="Tool extensions that contributed to or reconfigured the analysis tool that was run.">
+    : tool_component list option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the tool.">
+    : property_bag option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_tool">
+  <doc text="The analysis tool that was run.">
+
+type tool_component <ocaml attr="deriving show,eq,ord"> = {
+  ?associated_component
+    <json name="associatedComponent">
+    <doc text="The component which is strongly associated with this component. For a translation, this refers to the component which has been translated. For an extension, this is the driver that provides the extension's plugin model.">
+    : tool_component_reference option;
+  ?contents
+    <doc text="The kinds of data contained in this object.">
+    : tool_component_contents_item list option;
+  ?dotted_quad_file_version
+    <json name="dottedQuadFileVersion">
+    <doc text="The binary version of the tool component's primary executable file expressed as four non-negative integers separated by a period (for operating systems that express file versions in this way).">
+    : tool_component_dotted_quad_file_version option;
+  ?download_uri
+    <json name="downloadUri">
+    <doc text="The absolute URI from which the tool component can be downloaded.">
+    : string option;
+  ?full_description
+    <json name="fullDescription">
+    <doc text="A comprehensive description of the tool component.">
+    : multiformat_message_string option;
+  ?full_name
+    <json name="fullName">
+    <doc text="The name of the tool component along with its version and any other useful identifying information, such as its locale.">
+    : string option;
+  ?global_message_strings
+    <json name="globalMessageStrings">
+    <doc text="A dictionary, each of whose keys is a resource identifier and each of whose values is a multiformatMessageString object, which holds message strings in plain text and (optionally) Markdown format. The strings can include placeholders, which can be used to construct a message in combination with an arbitrary number of additional string arguments.">
+    : hm_str_mms option;
+  ?guid
+    <doc text="A unique identifier for the tool component in the form of a GUID.">
+    : tool_component_guid option;
+  ?information_uri
+    <json name="informationUri">
+    <doc text="The absolute URI at which information about this version of the tool component can be found.">
+    : string option;
+  ~is_comprehensive
+    <ocaml default="false">
+    <json name="isComprehensive">
+    <doc text="Specifies whether this object contains a complete definition of the localizable and/or non-localizable data for this component, as opposed to including only data that is relevant to the results persisted to this log file.">
+    : bool;
+  ?language
+    <doc text="The language of the messages emitted into the log file during this run (expressed as an ISO 639-1 two-letter lowercase language code) and an optional region (expressed as an ISO 3166-1 two-letter uppercase subculture code associated with a country or region). The casing is recommended but not required (in order for this data to conform to RFC5646).">
+    : tool_component_language option;
+  ?localized_data_semantic_version
+    <json name="localizedDataSemanticVersion">
+    <doc text="The semantic version of the localized strings defined in this component; maintained by components that provide translations.">
+    : string option;
+  ?locations
+    <doc text="An array of the artifactLocation objects associated with the tool component.">
+    : artifact_location list option;
+  ?minimum_required_localized_data_semantic_version
+    <json name="minimumRequiredLocalizedDataSemanticVersion">
+    <doc text="The minimum value of localizedDataSemanticVersion required in translations consumed by this component; used by components that consume translations.">
+    : string option;
+  name
+    <doc text="The name of the tool component.">
+    : string;
+  ?notifications
+    <doc text="An array of reportingDescriptor objects relevant to the notifications related to the configuration and runtime execution of the tool component.">
+    : reporting_descriptor list option;
+  ?organization
+    <doc text="The organization or company that produced the tool component.">
+    : string option;
+  ?product
+    <doc text="A product suite to which the tool component belongs.">
+    : string option;
+  ?product_suite
+    <json name="productSuite">
+    <doc text="A localizable string containing the name of the suite of products to which the tool component belongs.">
+    : string option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the tool component.">
+    : property_bag option;
+  ?release_date_utc
+    <json name="releaseDateUtc">
+    <doc text="A string specifying the UTC date (and optionally, the time) of the component's release.">
+    : string option;
+  ?rules
+    <doc text="An array of reportingDescriptor objects relevant to the analysis performed by the tool component.">
+    : reporting_descriptor list option;
+  ?semantic_version
+    <json name="semanticVersion">
+    <doc text="The tool component version in the format specified by Semantic Versioning 2.0.">
+    : string option;
+  ?short_description
+    <json name="shortDescription">
+    <doc text="A brief description of the tool component.">
+    : multiformat_message_string option;
+  ?supported_taxonomies
+    <json name="supportedTaxonomies">
+    <doc text="An array of toolComponentReference objects to declare the taxonomies supported by the tool component.">
+    : tool_component_reference list option;
+  ?taxa
+    <doc text="An array of reportingDescriptor objects relevant to the definitions of both standalone and tool-defined taxonomies.">
+    : reporting_descriptor list option;
+  ?translation_metadata
+    <json name="translationMetadata">
+    <doc text="Translation metadata, required for a translation, not populated by other component types.">
+    : translation_metadata option;
+  ?version
+    <doc text="The tool component version, in whatever format the component natively provides.">
+    : string option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_tool_component">
+  <doc text="A component, such as a plug-in or the driver, of the analysis tool that was run.">
+
+type thread_flow_location <ocaml attr="deriving show,eq,ord"> = {
+  ~execution_order
+    <ocaml default="-1L">
+    <json name="executionOrder">
+    <doc text="An integer representing the temporal order in which execution reached this location.">
+    : int64;
+  ?execution_time_utc
+    <json name="executionTimeUtc">
+    <doc text="The Coordinated Universal Time (UTC) date and time at which this location was executed.">
+    : string option;
+  ?importance
+    <doc text="Specifies the importance of this location in understanding the code flow in which it occurs. The order from most to least important is \"essential\", \"important\", \"unimportant\". Default: \"important\".">
+    : thread_flow_location_importance option;
+  ~index
+    <ocaml default="-1L">
+    <doc text="he index within the run threadFlowLocations array.">
+    : int64;
+  ?kinds
+    <doc text="A set of distinct strings that categorize the thread flow location. Well-known kinds include 'acquire', 'release', 'enter', 'exit', 'call', 'return', 'branch', 'implicit', 'false', 'true', 'caution', 'danger', 'unknown', 'unreachable', 'taint', 'function', 'handler', 'lock', 'memory', 'resource', 'scope' and 'value'.">
+    : string list option;
+  ?location
+    <doc text="The code location.">
+    : location option;
+  ?module_
+    <json name="module">
+    <doc text="The name of the module that contains the code that is executing.">
+    : string option;
+  ?nesting_level
+    <json name="nestingLevel">
+    <doc text="An integer representing a containment hierarchy within the thread flow.">
+    : int64 option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the threadflow location.">
+    : property_bag option;
+  ?stack
+    <doc text="The call stack leading to this location.">
+    : stack option;
+  ?state
+    <doc text="A dictionary, each of whose keys specifies a variable or expression, the associated value of which represents the variable or expression value. For an annotation of kind 'continuation', for example, this dictionary might hold the current assumed values of a set of global variables.">
+    : hm_str_mms option;
+  ?taxa
+    <doc text="An array of references to rule or taxonomy reporting descriptors that are applicable to the thread flow location.">
+    : reporting_descriptor_reference list option;
+  ?web_request
+    <json name="webRequest">
+    <doc text="A web request associated with this thread flow location.">
+    : web_request option;
+  ?web_response
+    <json name="webResponse">
+    <doc text="A web response associated with this thread flow location.">
+    : web_response option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_thread_flow_location">
+  <doc text="A location visited by an analysis tool while simulating or monitoring the execution of a program.">
+  
+type thread_flow_location_importance <ocaml attr="deriving show,eq,ord"> = [
+  | Important <json name="important">
+  | Essential <json name="essential">
+  | Unimportant <json name="unimportant">
+]
+  <doc text="Specifies the importance of this location in understanding the code flow in which it occurs. The order from most to least important is \"essential\", \"important\", \"unimportant\". Default: \"important\".">
+
+type thread_flow <ocaml attr="deriving show,eq,ord"> = {
+  ?id
+    <doc text="An string that uniquely identifies the threadFlow within the codeFlow in which it occurs.">
+    : string option;
+  ?immutable_state
+    <json name="immutableState">
+    <doc text="Values of relevant expressions at the start of the thread flow that remain constant.">
+    : hm_str_mms option;
+  ?initial_state
+    <json name="initialState">
+    <doc text="Values of relevant expressions at the start of the thread flow that may change during thread flow execution.">
+    : hm_str_mms option;
+  locations
+    <doc text="A temporally ordered array of 'threadFlowLocation' objects, each of which describes a location visited by the tool while producing the result.">
+    : thread_flow_location list;
+  ?message
+    <doc text="A message relevant to the thread flow.">
+    : message option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the thread flow.">
+    : property_bag option;
+}
+  <doc text="Describes a sequence of code locations that specify a path through a single thread of execution such as an operating system or fiber.">
+
+type translation_metadata <ocaml attr="deriving show,eq,ord"> = {
+  ?download_uri
+    <json name="downloadUri">
+    <doc text="The absolute URI from which the translation metadata can be downloaded.">
+    : string option;
+  ?full_description
+    <json name="fullDescription">
+    <doc text="A comprehensive description of the translation metadata.">
+    : multiformat_message_string option;
+  ?full_name
+    <json name="fullName">
+    <doc text="The full name associated with the translation metadata.">
+    : string option;
+  ?information_uri
+    <json name="informationUri">
+    <doc text="The absolute URI from which information related to the translation metadata can be downloaded.">
+    : string option;
+  name
+    <doc text="The name associated with the translation metadata.">
+    : string;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the translation metadata.">
+    : property_bag option;
+  ?short_description
+    <json name="shortDescription">
+    <doc text="A brief description of the translation metadata.">
+    : multiformat_message_string option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_translation_metadata">
+  <doc text="Provides additional metadata related to translation.">
+
+type tool_component_reference <ocaml attr="deriving show,eq,ord"> = {
+  ?guid
+    <doc text="The 'guid' property of the referenced toolComponent.">
+    : tool_component_reference_guid option;
+  ~index
+    <ocaml default="-1L">
+    <doc text="An index into the referenced toolComponent in tool.extensions.">
+    : int64;
+  ?name
+    <doc text="The 'name' property of the referenced toolComponent.">
+    : string option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the toolComponentReference.">
+    : property_bag option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_tool_component_reference">
+  <doc text="Identifies a particular toolComponent object, either the driver or an extension.">
+  
+type tool_component_reference_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_tool_component_reference_guid">
+  <doc text="The 'guid' property of the referenced toolComponent.">
+
+type tool_component_contents_item <ocaml attr="deriving show,eq,ord"> = [
+  | LocalizedData <json name="localizedData">
+  | NonLocalizedData <json name="nonLocalizedData">
+]
+  <doc text="ToolComponentContentsItem">
+
+type tool_component_dotted_quad_file_version <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_tool_component_dotted_quad_file_version">
+  <doc text="The binary version of the tool component's primary executable file expressed as four non-negative integers separated by a period (for operating systems that express file versions in this way).">
+
+type tool_component_guid <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_tool_component_guid">
+  <doc text="A unique identifier for the tool component in the form of a GUID.">
+
+type tool_component_language <ocaml attr="deriving show,eq,ord"> = string <ocaml valid="Sarif_v_2_1_0_util.validate_tool_component_language">
+  <doc text="The language of the messages emitted into the log file during this run (expressed as an ISO 639-1 two-letter lowercase language code) and an optional region (expressed as an ISO 3166-1 two-letter uppercase subculture code associated with a country or region). The casing is recommended but not required (in order for this data to conform to RFC5646).">
+
+type version_control_details <ocaml attr="deriving show,eq,ord"> = {
+  ?as_of_time_utc
+    <json name="asOfTimeUtc">
+    <doc text="A Coordinated Universal Time (UTC) date and time that can be used to synchronize an enlistment to the state of the repository at that time.">
+    : string option;
+  ?branch
+    <doc text="The name of a branch containing the revision.">
+    : string option;
+  ?mapped_to
+    <doc text="The location in the local file system to which the root of the repository was mapped at the time of the analysis.">
+    : artifact_location option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the version control details.">
+    : property_bag option;
+  repository_uri
+    <json name="repositoryUri">
+    <doc text="The absolute URI of the repository.">
+    : string;
+  ?revision_id
+    <json name="revisionId">
+    <doc text="A string that uniquely and permanently identifies the revision within the repository.">
+    : string option;
+  ?revision_tag
+    <json name="revisionTag">
+    <doc text="A tag that has been applied to the revision.">
+    : string option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_version_control_details">
+  <doc text="Specifies the information necessary to retrieve a desired revision from a version control system.">
+
+type web_request <ocaml attr="deriving show,eq,ord"> = {
+  ?body
+    <doc text="The body of the request.">
+    : artifact_content option;
+  ?headers
+    <doc text="The request headers.">
+    : hm_str_str option;
+  ~index
+    <ocaml default="-1L">
+    <doc text="The index within the run.webRequests array of the request object associated with this result.">
+    : int64;
+  ?method_
+    <json name="method">
+    <doc text="The HTTP method. Well-known values are 'GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS', 'TRACE', 'CONNECT'.">
+    : string option;
+  ?parameters
+    <doc text="The request parameters.">
+    : hm_str_str option;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the request.">
+    : property_bag option;
+  ?protocol
+    <doc text="The request protocol. Example: 'http'.">
+    : string option;
+  ?target
+    <doc text="The target of the request.">
+    : string option;
+  ?version
+    <doc text="The request version. Example: '1.1'.">
+    : string option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_web_request">
+  <doc text="Describes an HTTP request.">
+
+type web_response <ocaml attr="deriving show,eq,ord"> = {
+  ?body
+    <doc text="The body of the request.">
+    : artifact_content option;
+  ?headers
+    <doc text="The request headers.">
+    : hm_str_str option;
+  ~index
+    <ocaml default="-1L">
+    <doc text="The index within the run.webRequests array of the request object associated with this result.">
+    : int64;
+  ~no_response_received
+    <ocaml default="false">
+    <json name="noResponseReceived">
+    <doc text="Specifies whether a response was received from the server.">
+    : bool;
+  ?properties
+    <doc text="Key/value pairs that provide additional information about the request.">
+    : property_bag option;
+  ?protocol
+    <doc text="The request protocol. Example: 'http'.">
+    : string option;
+  ?reason_phrase
+    <json name="reasonPhrase">
+    <doc text="The response reason. Example: 'Not found'.">
+    : string option;
+  ?status_code
+    <json name="statusCode">
+    <doc text="The response status code. Example: 451.">
+    : string option;
+  ?version
+    <doc text="The request version. Example: '1.1'.">
+    : string option;
+}
+  <ocaml valid="Sarif_v_2_1_0_util.validate_web_response">
+  <doc text="Describes the response to an HTTP request.">
