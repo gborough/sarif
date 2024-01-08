@@ -10,7 +10,7 @@ let%expect_test "code_flows" =
   let parsed_result = Sarif_v_2_1_0_j.result_of_string result in
   let code_flows = Sarif_v_2_1_0_j.string_of_code_flow @@ List.hd_exn @@ Option.value_exn parsed_result.code_flows in
   print_endline code_flows;
-  [%expect {| {"message":{"text":"Path from declaration to usage."},"threadFlows":[{"locations":[{"importance":"essential","location":{"logicalLocations":[{"fullyQualifiedName":"collections::list::add"}],"message":{"text":"Variable 'ptr' declared."},"physicalLocation":{"artifactLocation":{"uri":"collections/list.h"},"region":{"snippet":{"text":"int* ptr;"},"startColumn":"8","startLine":"15"}}}},{"importance":"unimportant","location":{"logicalLocations":[{"fullyQualifiedName":"collections::list::add"}],"physicalLocation":{"artifactLocation":{"uri":"collections/list.h"},"region":{"snippet":{"text":"offset = 0;"},"startColumn":"8","startLine":"18"}}}},{"importance":"essential","location":{"logicalLocations":[{"fullyQualifiedName":"collections::list::add"}],"message":{"text":"Uninitialized variable 'ptr' passed to method 'add_core'."},"physicalLocation":{"artifactLocation":{"uri":"collections/list.h"},"region":{"snippet":{"text":"add_core(ptr, offset, val)"},"startColumn":"8","startLine":"25"}}}}]}]} |}]
+  [%expect {| {"message":{"text":"Path from declaration to usage."},"threadFlows":[{"locations":[{"importance":"essential","location":{"logicalLocations":[{"fullyQualifiedName":"collections::list::add"}],"message":{"text":"Variable 'ptr' declared."},"physicalLocation":{"artifactLocation":{"uri":"collections/list.h"},"region":{"snippet":{"text":"int* ptr;"},"startColumn":8,"startLine":15}}}},{"importance":"unimportant","location":{"logicalLocations":[{"fullyQualifiedName":"collections::list::add"}],"physicalLocation":{"artifactLocation":{"uri":"collections/list.h"},"region":{"snippet":{"text":"offset = 0;"},"startColumn":8,"startLine":18}}}},{"importance":"essential","location":{"logicalLocations":[{"fullyQualifiedName":"collections::list::add"}],"message":{"text":"Uninitialized variable 'ptr' passed to method 'add_core'."},"physicalLocation":{"artifactLocation":{"uri":"collections/list.h"},"region":{"snippet":{"text":"add_core(ptr, offset, val)"},"startColumn":8,"startLine":25}}}}]}]} |}]
 
 let%expect_test "context_region" =
   let json = In_channel.read_all "data/context_region.json" in
@@ -25,7 +25,7 @@ let%expect_test "context_region" =
   let parsed_physical_location = Sarif_v_2_1_0_j.physical_location_of_string physical_location in
   let context_region = Sarif_v_2_1_0_j.string_of_region @@ Option.value_exn parsed_physical_location.context_region in
   print_endline context_region;
-  [%expect {| {"endColumn":"28","snippet":{"text":"/// This is a BAD word."},"startColumn":"5","startLine":"4"} |}]
+  [%expect {| {"endColumn":28,"snippet":{"text":"/// This is a BAD word."},"startColumn":5,"startLine":4} |}]
 
 let%expect_test "default_rule_configuration" =
   let json = In_channel.read_all "data/default_rule_configuration.json" in
@@ -49,7 +49,7 @@ let%expect_test "embedded_binary_content" =
   let parsed_result = Sarif_v_2_1_0_j.result_of_string result in
   let location = Sarif_v_2_1_0_j.string_of_location @@ List.hd_exn @@ Option.value_exn parsed_result.locations in
   print_endline location;
-  [%expect {| {"physicalLocation":{"artifactLocation":{"index":"0","uri":"data.bin"},"region":{"byteLength":"2","byteOffset":"2"}}} |}]
+  [%expect {| {"physicalLocation":{"artifactLocation":{"index":0,"uri":"data.bin"},"region":{"byteLength":2,"byteOffset":2}}} |}]
 
 let%expect_test "embedded_text_content" =
   let json = In_channel.read_all "data/embedded_text_content.json" in
@@ -91,7 +91,7 @@ let%expect_test "regional_variants" =
   let parsed_result = Sarif_v_2_1_0_j.result_of_string result in
   let location = Sarif_v_2_1_0_j.string_of_location @@ List.hd_exn @@ Option.value_exn parsed_result.locations in
   print_endline location;
-  [%expect {| {"physicalLocation":{"artifactLocation":{"index":"0","uri":"TextFile.txt"},"region":{"endColumn":"4","endLine":"1","startColumn":"2","startLine":"1"}}} |}]
+  [%expect {| {"physicalLocation":{"artifactLocation":{"index":0,"uri":"TextFile.txt"},"region":{"endColumn":4,"endLine":1,"startColumn":2,"startLine":1}}} |}]
 
 let%expect_test "result_stacks" =
   let json = In_channel.read_all "data/result_stacks.json" in
@@ -102,7 +102,7 @@ let%expect_test "result_stacks" =
   let parsed_result = Sarif_v_2_1_0_j.result_of_string result in
   let stacks = Sarif_v_2_1_0_j.string_of_stack @@ List.hd_exn @@ Option.value_exn parsed_result.stacks in
   print_endline stacks;
-  [%expect {| {"frames":[{"location":{"logicalLocations":[{"fullyQualifiedName":"collections::list::add_core"}],"message":{"text":"Exception thrown."},"physicalLocation":{"artifactLocation":{"uri":"collections/list.h","uriBaseId":"SRCROOT"},"region":{"startColumn":"15","startLine":"110"}}},"module":"platform","parameters":["null","0","14"],"threadId":"52"},{"location":{"logicalLocations":[{"fullyQualifiedName":"collections::list::add"}],"physicalLocation":{"artifactLocation":{"uri":"collections/list.h","uriBaseId":"SRCROOT"},"region":{"startColumn":"15","startLine":"43"}}},"module":"platform","parameters":["14"],"threadId":"52"},{"location":{"logicalLocations":[{"fullyQualifiedName":"main"}],"physicalLocation":{"artifactLocation":{"uri":"application/main.cpp","uriBaseId":"SRCROOT"},"region":{"startColumn":"9","startLine":"28"}}},"module":"application","threadId":"52"}],"message":{"text":"Call stack resulting from usage of uninitialized variable."}} |}]
+  [%expect {| {"frames":[{"location":{"logicalLocations":[{"fullyQualifiedName":"collections::list::add_core"}],"message":{"text":"Exception thrown."},"physicalLocation":{"artifactLocation":{"uri":"collections/list.h","uriBaseId":"SRCROOT"},"region":{"startColumn":15,"startLine":110}}},"module":"platform","parameters":["null","0","14"],"threadId":52},{"location":{"logicalLocations":[{"fullyQualifiedName":"collections::list::add"}],"physicalLocation":{"artifactLocation":{"uri":"collections/list.h","uriBaseId":"SRCROOT"},"region":{"startColumn":15,"startLine":43}}},"module":"platform","parameters":["14"],"threadId":52},{"location":{"logicalLocations":[{"fullyQualifiedName":"main"}],"physicalLocation":{"artifactLocation":{"uri":"application/main.cpp","uriBaseId":"SRCROOT"},"region":{"startColumn":9,"startLine":28}}},"module":"application","threadId":52}],"message":{"text":"Call stack resulting from usage of uninitialized variable."}} |}]
 
 let%expect_test "rule_metadata" =
   let json = In_channel.read_all "data/rule_metadata.json" in

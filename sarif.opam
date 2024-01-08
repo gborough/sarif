@@ -12,11 +12,11 @@ doc: "https://gborough.github.io/sarif/sarif"
 bug-reports: "https://github.com/gborough/sarif/issues"
 depends: [
   "ocaml" {>= "4.14.0"}
-  "dune" {>= "3.0"}
+  "dune" {>= "3.12"}
   "core"
   "re2"
-  "atdgen" {<= "2.9.1"}
-  "atdgen-runtime" {<= "2.9.1"}
+  "atdgen" {>= "2.10.0"}
+  "atdgen-runtime" {>= "2.10.0"}
   "timedesc"
   "ppx_jane"
   "ppx_deriving"

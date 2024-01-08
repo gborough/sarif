@@ -1,4 +1,4 @@
-(lang dune 3.0)
+(lang dune 3.12)
 
 (name sarif)
 
@@ -23,6 +23,6 @@
  (name sarif)
  (synopsis "Static Analysis Results Interchange Format (SARIF) Version 2.1.0")
  (description "Static Analysis Results Interchange Format (SARIF) Version 2.1.0")
- (depends (ocaml (>= 4.14.0)) dune core re2 (atdgen (<= 2.9.1)) (atdgen-runtime (<= 2.9.1)) timedesc ppx_jane ppx_deriving (uri (>= 4.4.0)))
+ (depends (ocaml (>= 4.14.0)) dune core re2 (atdgen (>= 2.10.0)) (atdgen-runtime (>= 2.10.0)) timedesc ppx_jane ppx_deriving (uri (>= 4.4.0)))
  (tags
   (sarif)))
