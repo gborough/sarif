@@ -1,8 +1,11 @@
 [![CI](https://github.com/gborough/sarif/actions/workflows/ci.yml/badge.svg)](https://github.com/gborough/sarif/actions/workflows/ci.yml)
 
+API Documentation: https://gborough.github.io/sarif/sarif/sarif/index.html
+
 # SARIF(v2.1.0)
 
-Reference implementation of the Static Analysis Results Interchange Format (SARIF) For OCaml, currently supporting version 2.1.0(latest)
+Reference implementation of the Static Analysis Results Interchange Format (SARIF) For OCaml, currently supporting version 2.1.0(latest: https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
+
 
 This library uses atdgen to generate ocaml types therefore familiarity with its naming and conversion convention is highly recommended
 
