@@ -1,3 +1,5 @@
+[![CI](https://github.com/gborough/sarif/actions/workflows/ci.yml/badge.svg)](https://github.com/gborough/sarif/actions/workflows/ci.yml)
+
 # SARIF(v2.1.0)
 
 Reference implementation of the Static Analysis Results Interchange Format (SARIF) For OCaml, currently supporting version 2.1.0(latest)
@@ -59,5 +61,5 @@ This project is licensed under the [MIT license].
 ## Contribution
 
 Unless you explicitly state otherwise, any contribution intentionally submitted
-for inclusion in safemoney by you, shall be licensed as MIT, without any additional
+for inclusion in sarif by you, shall be licensed as MIT, without any additional
 terms or conditions.
