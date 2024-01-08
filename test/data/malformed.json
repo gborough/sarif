@@ -1,0 +1,126 @@
+{
+  "version": "2.1.0",
+  "$schema": "http://json.schemastore.org/sarif-2.1.0-rtm.4",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "ESLint",
+          "informationUri": "https://eslint.org",
+          "rules": [
+            {
+              "id": "no-unused-vars",
+              "shortDescription": {
+                "text": "disallow unused variables"
+              },
+              "helpUri": "https://eslint.org/docs/rules/no-unused-vars",
+              "properties": {
+                "category": "Variables"
+              }
+            }
+          ]
+        }
+      },
+      "artifacts": [
+        {
+          "lastModifiedTimeUtc": "2016-02-08",
+          "location": {
+            "uri": "file:///C:/dev/sarif/sarif-tutorials/samples/Introduction/simple-example.js"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/dev/sarif/sarif-tutorials/samples/Introduction/simple-example.js"
+          },
+          "mimeType": "text"
+        },
+        {
+          "location": {
+            "uri": "file:///C:/dev/sarif/sarif-tutorials/samples/Introduction/simple-example.js"
+          },
+          "offset": -1
+        },
+        {
+          "location": {
+            "uri": "file:///C:/dev/sarif/sarif-tutorials/samples/Introduction/simple-example.js"
+          },
+          "length": -2
+        }
+      ],
+      "taxonomies": [
+        {
+          "guid": "1A567403-868F-405E-92CF-771A9ECB03A1",
+          "name": "Requirement levels",
+          "dottedQuadFileVersion": "123",
+          "shortDescription": {
+            "text": "This taxonomy classifies rules according to whether their use is required or recommended by company policy."
+          },
+          "taxa": [
+            {
+              "id": "RQL1001",
+              "name": "Required",
+              "shortDescription": {
+                "text": "Rules in this category are required by company policy. All violations must be fixed unless an exemption is granted."
+              }
+            },
+            {
+              "id": "RQL1002",
+              "name": "Recommended",
+              "shortDescription": {
+                "text": "Rules in this category are recommended but not required by company policy. Violations should be fixed but an exemption is not required to suppress a result."
+              }
+            }
+          ]
+        }
+      ],
+      "results": [
+        {
+          "level": "error",
+          "message": {
+            "text": "'x' is assigned a value but never used."
+          },
+          "occurrenceCount": 0,
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/dev/sarif/sarif-tutorials/samples/Introduction/simple-example.js",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "ruleId": "no-unused-vars",
+          "ruleIndex": 0
+        },
+        {
+          "level": "error",
+          "message": {
+            "text": "'x' is assigned a value but never used."
+          },
+          "correlationGuid": "08ec860b-4e19-4b17-9643-56b9f1f87e",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/dev/sarif/sarif-tutorials/samples/Introduction/simple-example.js",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "ruleId": "no-unused-vars",
+          "ruleIndex": 0
+        }
+      ]
+    }
+  ]
+}
