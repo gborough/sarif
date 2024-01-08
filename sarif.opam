@@ -12,7 +12,7 @@ doc: "https://gborough.github.io/sarif/sarif"
 bug-reports: "https://github.com/gborough/sarif/issues"
 depends: [
   "ocaml" {>= "4.14.0"}
-  "dune" {>= "2.9"}
+  "dune" {>= "3.0"}
   "core"
   "re2"
   "atdgen-runtime"
@@ -20,7 +20,7 @@ depends: [
   "ppx_jane"
   "ppx_deriving"
   "yojson"
-  "uri"
+  "uri" {>= "4.4.0"}
   "odoc" {with-doc}
 ]
 build: [
@@ -32,11 +32,9 @@ build: [
     name
     "-j"
     jobs
-    "--promote-install-files=false"
     "@install"
     "@runtest" {with-test}
     "@doc" {with-doc}
   ]
-  ["dune" "install" "-p" name "--create-install-files" name]
 ]
 dev-repo: "git+https://github.com/gborough/sarif.git"
