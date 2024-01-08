@@ -15,7 +15,8 @@ depends: [
   "dune" {>= "3.0"}
   "core"
   "re2"
-  "atdgen-runtime"
+  "atdgen" {<= "2.9.1"}
+  "atdgen-runtime" {<= "2.9.1"}
   "timedesc"
   "ppx_jane"
   "ppx_deriving"
