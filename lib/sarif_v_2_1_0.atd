@@ -1497,6 +1497,9 @@ type suppression_status <ocaml attr="deriving show,eq,ord"> = [
   <doc text="A string that indicates the review status of the suppression.">
 
 type sarif_json_schema <ocaml attr="deriving show,eq,ord"> = {
+  version
+    <doc text="The SARIF format version of this log file.">
+    : sarif_version;
   ?inline_external_properties
     <json name="inlineExternalProperties">
     <doc text="References to external property files that share data between runs.">
@@ -1511,9 +1514,6 @@ type sarif_json_schema <ocaml attr="deriving show,eq,ord"> = {
     <json name="$schema">
     <doc text="The URI of the JSON schema corresponding to the version.">
     : string option;
-  version
-    <doc text="The SARIF format version of this log file.">
-    : sarif_version;
 }
   <ocaml valid="Sarif_v_2_1_0_util.validate_sarif_json_schema">
   <doc text="Core type: Static Analysis Results Format (SARIF) Version 2.1.0 JSON Schema: a standard format for the output of static analysis tools.">

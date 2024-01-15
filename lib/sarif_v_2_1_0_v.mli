@@ -2052,6 +2052,7 @@ type run = Sarif_v_2_1_0_t.run = {
   Schema: a standard format for the output of static analysis tools.
 *)
 type sarif_json_schema = Sarif_v_2_1_0_t.sarif_json_schema = {
+  version: sarif_version (** The SARIF format version of this log file. *);
   inline_external_properties: external_properties list option
     (**
       References to external property files that share data between runs.
@@ -2062,8 +2063,7 @@ type sarif_json_schema = Sarif_v_2_1_0_t.sarif_json_schema = {
     *);
   runs: run list (** The set of runs contained in this log file. *);
   schema: string option
-    (** The URI of the JSON schema corresponding to the version. *);
-  version: sarif_version (** The SARIF format version of this log file. *)
+    (** The URI of the JSON schema corresponding to the version. *)
 }
   [@@deriving show,eq,ord]
 
@@ -3060,11 +3060,11 @@ val validate_run :
   (** Validate a value of type {!type:run}. *)
 
 val create_sarif_json_schema :
+  version: sarif_version ->
   ?inline_external_properties: external_properties list ->
   ?properties: property_bag ->
   runs: run list ->
   ?schema: string ->
-  version: sarif_version ->
   unit -> sarif_json_schema
   (** Create a record of type {!type:sarif_json_schema}. *)
 

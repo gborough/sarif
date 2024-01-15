@@ -2052,6 +2052,7 @@ type run = Sarif_v_2_1_0_t.run = {
   Schema: a standard format for the output of static analysis tools.
 *)
 type sarif_json_schema = Sarif_v_2_1_0_t.sarif_json_schema = {
+  version: sarif_version (** The SARIF format version of this log file. *);
   inline_external_properties: external_properties list option
     (**
       References to external property files that share data between runs.
@@ -2062,8 +2063,7 @@ type sarif_json_schema = Sarif_v_2_1_0_t.sarif_json_schema = {
     *);
   runs: run list (** The set of runs contained in this log file. *);
   schema: string option
-    (** The URI of the JSON schema corresponding to the version. *);
-  version: sarif_version (** The SARIF format version of this log file. *)
+    (** The URI of the JSON schema corresponding to the version. *)
 }
   [@@deriving show,eq,ord]
 
@@ -34825,6 +34825,15 @@ let write_sarif_json_schema : _ -> sarif_json_schema -> _ = (
   fun ob (x : sarif_json_schema) ->
     Buffer.add_char ob '{';
     let is_first = ref true in
+    if !is_first then
+      is_first := false
+    else
+      Buffer.add_char ob ',';
+      Buffer.add_string ob "\"version\":";
+    (
+      write_sarif_version
+    )
+      ob x.version;
     (match x.inline_external_properties with None -> () | Some x ->
       if !is_first then
         is_first := false
@@ -34867,15 +34876,6 @@ let write_sarif_json_schema : _ -> sarif_json_schema -> _ = (
       )
         ob x;
     );
-    if !is_first then
-      is_first := false
-    else
-      Buffer.add_char ob ',';
-      Buffer.add_string ob "\"version\":";
-    (
-      write_sarif_version
-    )
-      ob x.version;
     Buffer.add_char ob '}';
 )
 let string_of_sarif_json_schema ?(len = 1024) x =
@@ -34886,11 +34886,11 @@ let read_sarif_json_schema = (
   fun p lb ->
     Yojson.Safe.read_space p lb;
     Yojson.Safe.read_lcurl p lb;
+    let field_version = ref (None) in
     let field_inline_external_properties = ref (None) in
     let field_properties = ref (None) in
     let field_runs = ref (None) in
     let field_schema = ref (None) in
-    let field_version = ref (None) in
     try
       Yojson.Safe.read_space p lb;
       Yojson.Safe.read_object_end lb;
@@ -34902,7 +34902,7 @@ let read_sarif_json_schema = (
           match len with
             | 4 -> (
                 if String.unsafe_get s pos = 'r' && String.unsafe_get s (pos+1) = 'u' && String.unsafe_get s (pos+2) = 'n' && String.unsafe_get s (pos+3) = 's' then (
-                  2
+                  3
                 )
                 else (
                   -1
@@ -34912,7 +34912,7 @@ let read_sarif_json_schema = (
                 match String.unsafe_get s pos with
                   | '$' -> (
                       if String.unsafe_get s (pos+1) = 's' && String.unsafe_get s (pos+2) = 'c' && String.unsafe_get s (pos+3) = 'h' && String.unsafe_get s (pos+4) = 'e' && String.unsafe_get s (pos+5) = 'm' && String.unsafe_get s (pos+6) = 'a' then (
-                        3
+                        4
                       )
                       else (
                         -1
@@ -34920,7 +34920,7 @@ let read_sarif_json_schema = (
                     )
                   | 'v' -> (
                       if String.unsafe_get s (pos+1) = 'e' && String.unsafe_get s (pos+2) = 'r' && String.unsafe_get s (pos+3) = 's' && String.unsafe_get s (pos+4) = 'i' && String.unsafe_get s (pos+5) = 'o' && String.unsafe_get s (pos+6) = 'n' then (
-                        4
+                        0
                       )
                       else (
                         -1
@@ -34932,7 +34932,7 @@ let read_sarif_json_schema = (
               )
             | 10 -> (
                 if String.unsafe_get s pos = 'p' && String.unsafe_get s (pos+1) = 'r' && String.unsafe_get s (pos+2) = 'o' && String.unsafe_get s (pos+3) = 'p' && String.unsafe_get s (pos+4) = 'e' && String.unsafe_get s (pos+5) = 'r' && String.unsafe_get s (pos+6) = 't' && String.unsafe_get s (pos+7) = 'i' && String.unsafe_get s (pos+8) = 'e' && String.unsafe_get s (pos+9) = 's' then (
-                  1
+                  2
                 )
                 else (
                   -1
@@ -34940,7 +34940,7 @@ let read_sarif_json_schema = (
               )
             | 24 -> (
                 if String.unsafe_get s pos = 'i' && String.unsafe_get s (pos+1) = 'n' && String.unsafe_get s (pos+2) = 'l' && String.unsafe_get s (pos+3) = 'i' && String.unsafe_get s (pos+4) = 'n' && String.unsafe_get s (pos+5) = 'e' && String.unsafe_get s (pos+6) = 'E' && String.unsafe_get s (pos+7) = 'x' && String.unsafe_get s (pos+8) = 't' && String.unsafe_get s (pos+9) = 'e' && String.unsafe_get s (pos+10) = 'r' && String.unsafe_get s (pos+11) = 'n' && String.unsafe_get s (pos+12) = 'a' && String.unsafe_get s (pos+13) = 'l' && String.unsafe_get s (pos+14) = 'P' && String.unsafe_get s (pos+15) = 'r' && String.unsafe_get s (pos+16) = 'o' && String.unsafe_get s (pos+17) = 'p' && String.unsafe_get s (pos+18) = 'e' && String.unsafe_get s (pos+19) = 'r' && String.unsafe_get s (pos+20) = 't' && String.unsafe_get s (pos+21) = 'i' && String.unsafe_get s (pos+22) = 'e' && String.unsafe_get s (pos+23) = 's' then (
-                  0
+                  1
                 )
                 else (
                   -1
@@ -34955,6 +34955,14 @@ let read_sarif_json_schema = (
       (
         match i with
           | 0 ->
+            field_version := (
+              Some (
+                (
+                  read_sarif_version
+                ) p lb
+              )
+            );
+          | 1 ->
             if not (Yojson.Safe.read_null_if_possible p lb) then (
               field_inline_external_properties := (
                 Some (
@@ -34964,7 +34972,7 @@ let read_sarif_json_schema = (
                 )
               );
             )
-          | 1 ->
+          | 2 ->
             if not (Yojson.Safe.read_null_if_possible p lb) then (
               field_properties := (
                 Some (
@@ -34974,7 +34982,7 @@ let read_sarif_json_schema = (
                 )
               );
             )
-          | 2 ->
+          | 3 ->
             field_runs := (
               Some (
                 (
@@ -34982,7 +34990,7 @@ let read_sarif_json_schema = (
                 ) p lb
               )
             );
-          | 3 ->
+          | 4 ->
             if not (Yojson.Safe.read_null_if_possible p lb) then (
               field_schema := (
                 Some (
@@ -34992,14 +35000,6 @@ let read_sarif_json_schema = (
                 )
               );
             )
-          | 4 ->
-            field_version := (
-              Some (
-                (
-                  read_sarif_version
-                ) p lb
-              )
-            );
           | _ -> (
               Yojson.Safe.skip_json p lb
             )
@@ -35015,7 +35015,7 @@ let read_sarif_json_schema = (
             match len with
               | 4 -> (
                   if String.unsafe_get s pos = 'r' && String.unsafe_get s (pos+1) = 'u' && String.unsafe_get s (pos+2) = 'n' && String.unsafe_get s (pos+3) = 's' then (
-                    2
+                    3
                   )
                   else (
                     -1
@@ -35025,7 +35025,7 @@ let read_sarif_json_schema = (
                   match String.unsafe_get s pos with
                     | '$' -> (
                         if String.unsafe_get s (pos+1) = 's' && String.unsafe_get s (pos+2) = 'c' && String.unsafe_get s (pos+3) = 'h' && String.unsafe_get s (pos+4) = 'e' && String.unsafe_get s (pos+5) = 'm' && String.unsafe_get s (pos+6) = 'a' then (
-                          3
+                          4
                         )
                         else (
                           -1
@@ -35033,7 +35033,7 @@ let read_sarif_json_schema = (
                       )
                     | 'v' -> (
                         if String.unsafe_get s (pos+1) = 'e' && String.unsafe_get s (pos+2) = 'r' && String.unsafe_get s (pos+3) = 's' && String.unsafe_get s (pos+4) = 'i' && String.unsafe_get s (pos+5) = 'o' && String.unsafe_get s (pos+6) = 'n' then (
-                          4
+                          0
                         )
                         else (
                           -1
@@ -35045,7 +35045,7 @@ let read_sarif_json_schema = (
                 )
               | 10 -> (
                   if String.unsafe_get s pos = 'p' && String.unsafe_get s (pos+1) = 'r' && String.unsafe_get s (pos+2) = 'o' && String.unsafe_get s (pos+3) = 'p' && String.unsafe_get s (pos+4) = 'e' && String.unsafe_get s (pos+5) = 'r' && String.unsafe_get s (pos+6) = 't' && String.unsafe_get s (pos+7) = 'i' && String.unsafe_get s (pos+8) = 'e' && String.unsafe_get s (pos+9) = 's' then (
-                    1
+                    2
                   )
                   else (
                     -1
@@ -35053,7 +35053,7 @@ let read_sarif_json_schema = (
                 )
               | 24 -> (
                   if String.unsafe_get s pos = 'i' && String.unsafe_get s (pos+1) = 'n' && String.unsafe_get s (pos+2) = 'l' && String.unsafe_get s (pos+3) = 'i' && String.unsafe_get s (pos+4) = 'n' && String.unsafe_get s (pos+5) = 'e' && String.unsafe_get s (pos+6) = 'E' && String.unsafe_get s (pos+7) = 'x' && String.unsafe_get s (pos+8) = 't' && String.unsafe_get s (pos+9) = 'e' && String.unsafe_get s (pos+10) = 'r' && String.unsafe_get s (pos+11) = 'n' && String.unsafe_get s (pos+12) = 'a' && String.unsafe_get s (pos+13) = 'l' && String.unsafe_get s (pos+14) = 'P' && String.unsafe_get s (pos+15) = 'r' && String.unsafe_get s (pos+16) = 'o' && String.unsafe_get s (pos+17) = 'p' && String.unsafe_get s (pos+18) = 'e' && String.unsafe_get s (pos+19) = 'r' && String.unsafe_get s (pos+20) = 't' && String.unsafe_get s (pos+21) = 'i' && String.unsafe_get s (pos+22) = 'e' && String.unsafe_get s (pos+23) = 's' then (
-                    0
+                    1
                   )
                   else (
                     -1
@@ -35068,6 +35068,14 @@ let read_sarif_json_schema = (
         (
           match i with
             | 0 ->
+              field_version := (
+                Some (
+                  (
+                    read_sarif_version
+                  ) p lb
+                )
+              );
+            | 1 ->
               if not (Yojson.Safe.read_null_if_possible p lb) then (
                 field_inline_external_properties := (
                   Some (
@@ -35077,7 +35085,7 @@ let read_sarif_json_schema = (
                   )
                 );
               )
-            | 1 ->
+            | 2 ->
               if not (Yojson.Safe.read_null_if_possible p lb) then (
                 field_properties := (
                   Some (
@@ -35087,7 +35095,7 @@ let read_sarif_json_schema = (
                   )
                 );
               )
-            | 2 ->
+            | 3 ->
               field_runs := (
                 Some (
                   (
@@ -35095,7 +35103,7 @@ let read_sarif_json_schema = (
                   ) p lb
                 )
               );
-            | 3 ->
+            | 4 ->
               if not (Yojson.Safe.read_null_if_possible p lb) then (
                 field_schema := (
                   Some (
@@ -35105,14 +35113,6 @@ let read_sarif_json_schema = (
                   )
                 );
               )
-            | 4 ->
-              field_version := (
-                Some (
-                  (
-                    read_sarif_version
-                  ) p lb
-                )
-              );
             | _ -> (
                 Yojson.Safe.skip_json p lb
               )
@@ -35122,11 +35122,11 @@ let read_sarif_json_schema = (
     with Yojson.End_of_object -> (
         (
           {
+            version = (match !field_version with Some x -> x | None -> Atdgen_runtime.Oj_run.missing_field p "version");
             inline_external_properties = !field_inline_external_properties;
             properties = !field_properties;
             runs = (match !field_runs with Some x -> x | None -> Atdgen_runtime.Oj_run.missing_field p "runs");
             schema = !field_schema;
-            version = (match !field_version with Some x -> x | None -> Atdgen_runtime.Oj_run.missing_field p "version");
           }
          : sarif_json_schema)
       )
