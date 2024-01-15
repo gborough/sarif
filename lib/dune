@@ -7,17 +7,20 @@
 
 (include_subdirs unqualified)
 
-; (rule
-; (targets sarif_v_2_1_0_t.ml sarif_v_2_1_0_t.mli)
-; (deps    sarif_v_2_1_0.atd)
-; (action  (run atdgen -t %{deps})))
+(rule
+ (targets sarif_v_2_1_0_t.ml sarif_v_2_1_0_t.mli)
+ (deps    sarif_v_2_1_0.atd)
+ (mode (promote (until-clean)))
+ (action  (run atdgen -t %{deps})))
 
-; (rule
-; (targets sarif_v_2_1_0_j.ml sarif_v_2_1_0_j.mli)
-; (deps    sarif_v_2_1_0.atd)
-; (action  (run atdgen -j -j-std %{deps})))
+(rule
+ (targets sarif_v_2_1_0_j.ml sarif_v_2_1_0_j.mli)
+ (deps    sarif_v_2_1_0.atd)
+ (mode (promote (until-clean)))
+ (action  (run atdgen -j -j-std %{deps})))
 
-; (rule
-; (targets sarif_v_2_1_0_v.ml sarif_v_2_1_0_v.mli)
-; (deps    sarif_v_2_1_0.atd)
-; (action  (run atdgen -v %{deps})))
+(rule
+ (targets sarif_v_2_1_0_v.ml sarif_v_2_1_0_v.mli)
+ (deps    sarif_v_2_1_0.atd)
+ (mode (promote (until-clean)))
+ (action  (run atdgen -v %{deps})))
