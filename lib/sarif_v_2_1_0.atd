@@ -917,6 +917,7 @@ type reporting_descriptor <ocaml attr="deriving show,eq,ord"> = {
     <doc text="An array of objects that describe relationships between this reporting descriptor and others.">
     : reporting_descriptor_relationship list option;
   ?short_description
+    <json name="shortDescription">
     <doc text="A concise description of the report. Should be a single sentence that is understandable when visible space is limited to a single line of text.">
     : multiformat_message_string option;
 }
