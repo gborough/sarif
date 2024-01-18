@@ -2,6 +2,6 @@
  (name test_sarif)
  (libraries sarif core ppx_expect.common ppx_expect.config ppx_expect.config_types)
  (inline_tests (deps (glob_files data/*)))
- (preprocess (pps ppx_jane)))
+ (preprocess (pps ppx_expect)))
 
 (include_subdirs unqualified)
