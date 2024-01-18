@@ -1,6 +1,5 @@
 (** Validation functions used by atdgen validator *)
 
-open Core
 open Timedesc
 
 open Sarif_v_2_1_0_t
@@ -60,13 +59,17 @@ let validate_language_opt = function
 
 let validate_unique = function
   | [] -> true
-  | lst -> if List.contains_dup lst ~compare:Stdlib.compare then false else true
+  | cur :: rem ->
+    let rec loop cur rem =
+      not (List.mem cur rem) &&
+      match rem with
+      | [] -> true
+      | cur :: rem -> loop cur rem
+    in
+    loop cur rem
 
-let validate_unique_opt = function
-  | None -> true
-  | Some v -> match v with
-    | [] -> true
-    | lst -> if List.contains_dup lst ~compare:Stdlib.compare then false else true
+let validate_unique_opt xs_opt =
+  Option.fold ~none:true ~some:validate_unique xs_opt
 
 let validate_rank x =
   if (Int64.compare x (-2L)) > 0 &&  (Int64.compare x (101L)) < 0 then true else false
@@ -87,12 +90,12 @@ let validate_list_min_size_one x = if (Int.compare (List.length x) 1) > 0 then t
 let validate_list_all_str_list (lst : string list option) pred =
   match lst with
   | None -> true
-  | Some v -> List.for_all v ~f:pred
+  | Some v -> List.for_all pred v
 
 let validate_list_all_deprecated_guid_list (lst : reporting_descriptor_deprecated_guids_item list option) pred =
     match lst with
     | None -> true
-    | Some v -> List.for_all v ~f:pred
+    | Some v -> List.for_all pred v
 
 (** Validator for type address *)
 let validate_address (address : address) =
