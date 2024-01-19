@@ -182,6 +182,7 @@ type attachment <ocaml attr="deriving show,eq,ord"> = {
 
 type artifact_change <ocaml attr="deriving show,eq,ord"> = {
   artifact_location
+    <json name="artifactLocation">
     <doc text="The location of the artifact to change.">
     : artifact_location;
   ?properties
@@ -468,6 +469,7 @@ type external_property_file_reference_guid <ocaml attr="deriving show,eq,ord"> =
 
 type fix <ocaml attr="deriving show,eq,ord"> = {
   artifact_changes
+    <json name="artifactChanges">
     <doc text="One or more artifact changes that comprise a fix for a result.">
     : artifact_change list;
   ?description
@@ -917,6 +919,7 @@ type reporting_descriptor <ocaml attr="deriving show,eq,ord"> = {
     <doc text="An array of objects that describe relationships between this reporting descriptor and others.">
     : reporting_descriptor_relationship list option;
   ?short_description
+    <json name="shortDescription">
     <doc text="A concise description of the report. Should be a single sentence that is understandable when visible space is limited to a single line of text.">
     : multiformat_message_string option;
 }
@@ -1194,6 +1197,7 @@ type result_baseline_state <ocaml attr="deriving show,eq,ord"> = [
 
 type replacement <ocaml attr="deriving show,eq,ord"> = {
   deleted_region
+    <json name="deletedRegion">
     <doc text="The region of the artifact to delete.">
     : region;
   ?inserted_content
