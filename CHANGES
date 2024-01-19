@@ -8,4 +8,4 @@
 * Added versioning field to Sarif core type
 
 ### Fixed
-* Fixed JSON field renaming for artifactLocation, artifactChanges, shortDescription, deletedRegion
+* Fixed missing JSON field for artifactLocation, artifactChanges, shortDescription, deletedRegion, webRequests, webResponses, itemCount, exitCode, parentIndex, partialFingerprints, workItemUris, mappedTo
