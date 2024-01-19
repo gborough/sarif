@@ -71,7 +71,7 @@ let%expect_test "notifications" =
   let parsed_driver = Sarif_v_2_1_0_j.tool_component_of_string driver in
   let notifications = Sarif_v_2_1_0_j.string_of_reporting_descriptor @@ List.hd_exn @@ Option.value_exn parsed_driver.notifications in
   print_endline notifications;
-  [%expect {| {"defaultConfiguration":{"level":"warning"},"id":"TUTN9001","messageStrings":{"disabled":{"text":"'{0}' cannot be disabled because this rule does not exist."},"enabled":{"text":"'{0}' cannot be enabled because this rule does not exist."}},"name":"unknown-rule"} |}]
+  [%expect {| {"defaultConfiguration":{"level":"warning"},"id":"TUTN9001","messageStrings":{"disabled":{"text":"'{0}' cannot be disabled because this rule does not exist."},"enabled":{"text":"'{0}' cannot be enabled because this rule does not exist."}},"name":"unknown-rule","shortDescription":{"text":"This notification is triggered when the user supplies a command line argument to enable or disable a rule that does not exist."}} |}]
 
 let%expect_test "original_uri_base_ids" =
   let json = In_channel.read_all "data/original_uri_base_ids.json" in
@@ -115,7 +115,7 @@ let%expect_test "rule_metadata" =
   let parsed_driver = Sarif_v_2_1_0_j.tool_component_of_string driver in
   let rules = Sarif_v_2_1_0_j.string_of_reporting_descriptor @@ List.hd_exn @@ Option.value_exn parsed_driver.rules in
   print_endline rules;
-  [%expect {| {"defaultConfiguration":{"level":"error"},"fullDescription":{"markdown":"Every JSON property whose value is defined by the schema to be a URI (with `\"format\": \"uri\"` or `\"format\": \"uri-reference\"`) must contain a valid URI.","text":"Every JSON property whose value is defined by the schema to be a URI (with \"format\": \"uri\" or \"format\": \"uri-reference\") must contain a valid URI."},"id":"TUT1001","messageStrings":{"default":{"markdown":"The URI `{0}` is invalid.","text":"The URI '{0}' is invalid."}},"name":"InvalidUri"} |}]
+  [%expect {| {"defaultConfiguration":{"level":"error"},"fullDescription":{"markdown":"Every JSON property whose value is defined by the schema to be a URI (with `\"format\": \"uri\"` or `\"format\": \"uri-reference\"`) must contain a valid URI.","text":"Every JSON property whose value is defined by the schema to be a URI (with \"format\": \"uri\" or \"format\": \"uri-reference\") must contain a valid URI."},"id":"TUT1001","messageStrings":{"default":{"markdown":"The URI `{0}` is invalid.","text":"The URI '{0}' is invalid."}},"name":"InvalidUri","shortDescription":{"markdown":"Properties defined with the `uri` or `uri-reference` format must contain valid URIs.","text":"Properties defined with the 'uri' or 'uri-reference' format must contain valid URIs."}} |}]
 
 let%expect_test "suppresions" =
   let json = In_channel.read_all "data/suppresions.json" in
@@ -135,7 +135,7 @@ let%expect_test "taxonomies" =
   let parsed_run = Sarif_v_2_1_0_j.run_of_string run in
   let taxonomies = Sarif_v_2_1_0_j.string_of_tool_component @@ List.hd_exn @@ Option.value_exn parsed_run.taxonomies in
   print_endline taxonomies;
-  [%expect {| {"guid":"1A567403-868F-405E-92CF-771A9ECB03A1","name":"Requirement levels","shortDescription":{"text":"This taxonomy classifies rules according to whether their use is required or recommended by company policy."},"taxa":[{"id":"RQL1001","name":"Required"},{"id":"RQL1002","name":"Recommended"}]} |}]
+  [%expect {| {"guid":"1A567403-868F-405E-92CF-771A9ECB03A1","name":"Requirement levels","shortDescription":{"text":"This taxonomy classifies rules according to whether their use is required or recommended by company policy."},"taxa":[{"id":"RQL1001","name":"Required","shortDescription":{"text":"Rules in this category are required by company policy. All violations must be fixed unless an exemption is granted."}},{"id":"RQL1002","name":"Recommended","shortDescription":{"text":"Rules in this category are recommended but not required by company policy. Violations should be fixed but an exemption is not required to suppress a result."}}]} |}]
 
 let%expect_test "sarif_json_schema.version" =
   let sarif_json_schema =
