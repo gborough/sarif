@@ -136,3 +136,14 @@ let%expect_test "taxonomies" =
   let taxonomies = Sarif_v_2_1_0_j.string_of_tool_component @@ List.hd_exn @@ Option.value_exn parsed_run.taxonomies in
   print_endline taxonomies;
   [%expect {| {"guid":"1A567403-868F-405E-92CF-771A9ECB03A1","name":"Requirement levels","shortDescription":{"text":"This taxonomy classifies rules according to whether their use is required or recommended by company policy."},"taxa":[{"id":"RQL1001","name":"Required"},{"id":"RQL1002","name":"Recommended"}]} |}]
+
+let%expect_test "sarif_json_schema.version" =
+  let sarif_json_schema =
+    Sarif_v_2_1_0_v.create_sarif_json_schema
+      ~version:`TwoDotOneDotZero
+      ~runs:[]
+      ()
+  in
+  let s = Sarif_v_2_1_0_j.string_of_sarif_json_schema sarif_json_schema in
+  print_endline s;
+  [%expect {| {"version":"2.1.0","runs":[]} |}]
