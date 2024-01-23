@@ -13,7 +13,7 @@ bug-reports: "https://github.com/gborough/sarif/issues"
 depends: [
   "ocaml" {>= "4.14.0"}
   "dune" {>= "3.12"}
-  "re2"
+  "re"
   "atdgen" {>= "2.10.0"}
   "atdgen-runtime" {>= "2.10.0"}
   "timedesc"

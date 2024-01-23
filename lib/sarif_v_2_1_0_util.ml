@@ -10,12 +10,14 @@ let validate_iso8601_opt = function
               | Ok _ -> true
               | Error _ -> false
 
-let validate_mime_type x =
-  let re = Re2.create_exn "[^/]+/.+" in Re2.matches re x
+let re_mime_type =
+  Re.Str.regexp_string "[^/]+/.+"
 
-let validate_mime_type_opt = function
-  | None -> true
-  | Some v -> let re = Re2.create_exn "[^/]+/.+" in Re2.matches re v
+let validate_mime_type x =
+  Re.Str.string_match re_mime_type x 0
+
+let validate_mime_type_opt x =
+  Option.fold ~none:true ~some:validate_mime_type x
 
 let validate_int64_minimum_zero x = if (Int64.compare x (-1L)) > 0 then true else false
 
@@ -32,30 +34,32 @@ let validate_int64_minimum_one_opt = function
 let validate_int64_minimum_minus_one x =
   if (Int64.compare x (-2L)) > 0 then true else false
 
-let validate_guid x =
-  let re = Re2.create_exn "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
-  in Re2.matches re x
+let re_guid =
+  Re.Str.regexp_string "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}"
 
-let validate_guid_opt = function
-  | None -> true
-  | Some v -> let re = Re2.create_exn "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
-              in Re2.matches re v
+let validate_guid x =
+  Re.Str.string_match re_guid x 0
+
+let validate_guid_opt o =
+  Option.fold o ~none:true ~some:validate_guid
+
+let re_dotted_quad_file =
+  Re.Str.regexp_string "[0-9]+(\\\\.[0-9]+){3}"
 
 let validate_dotted_quad_file_v x =
-  let re = Re2.create_exn "[0-9]+(\\\\.[0-9]+){3}"
-  in Re2.matches re x
+  Re.Str.string_match re_dotted_quad_file x 0
 
-let validate_dotted_quad_file_v_opt = function
-  | None -> true
-  | Some v -> let re = Re2.create_exn "[0-9]+(\\\\.[0-9]+){3}" in Re2.matches re v
+let validate_dotted_quad_file_v_opt o =
+  Option.fold o ~none:true ~some:validate_dotted_quad_file_v
+
+let re_language =
+  Re.Str.regexp_string "[a-zA-Z]{2}(-[a-zA-Z]{2})?"
 
 let validate_language x =
-  let re = Re2.create_exn "^[a-zA-Z]{2}(-[a-zA-Z]{2})?$"
-  in Re2.matches re x
+  Re.Str.string_match re_language x 0
 
-let validate_language_opt = function
-  | None -> true
-  | Some v -> let re = Re2.create_exn "^[a-zA-Z]{2}(-[a-zA-Z]{2})?$" in Re2.matches re v
+let validate_language_opt x =
+  Option.fold x ~none:true ~some:validate_language
 
 let validate_unique = function
   | [] -> true
