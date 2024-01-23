@@ -13,12 +13,11 @@ bug-reports: "https://github.com/gborough/sarif/issues"
 depends: [
   "ocaml" {>= "4.14.0"}
   "dune" {>= "3.12"}
-  "core"
-  "re2"
+  "re"
   "atdgen" {>= "2.10.0"}
   "atdgen-runtime" {>= "2.10.0"}
   "timedesc"
-  "ppx_jane"
+  "ppx_expect" {with-test}
   "ppx_deriving"
   "uri" {>= "4.4.0"}
   "odoc" {with-doc}

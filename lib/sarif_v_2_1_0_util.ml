@@ -1,6 +1,5 @@
 (** Validation functions used by atdgen validator *)
 
-open Core
 open Timedesc
 
 open Sarif_v_2_1_0_t
@@ -11,12 +10,14 @@ let validate_iso8601_opt = function
               | Ok _ -> true
               | Error _ -> false
 
-let validate_mime_type x =
-  let re = Re2.create_exn "[^/]+/.+" in Re2.matches re x
+let re_mime_type =
+  Re.Str.regexp "^[^/]+/.+$"
 
-let validate_mime_type_opt = function
-  | None -> true
-  | Some v -> let re = Re2.create_exn "[^/]+/.+" in Re2.matches re v
+let validate_mime_type x =
+  Re.Str.string_match re_mime_type x 0
+
+let validate_mime_type_opt x =
+  Option.fold ~none:true ~some:validate_mime_type x
 
 let validate_int64_minimum_zero x = if (Int64.compare x (-1L)) > 0 then true else false
 
@@ -33,40 +34,46 @@ let validate_int64_minimum_one_opt = function
 let validate_int64_minimum_minus_one x =
   if (Int64.compare x (-2L)) > 0 then true else false
 
-let validate_guid x =
-  let re = Re2.create_exn "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
-  in Re2.matches re x
+let re_guid =
+  Re.Str.regexp "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
 
-let validate_guid_opt = function
-  | None -> true
-  | Some v -> let re = Re2.create_exn "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
-              in Re2.matches re v
+let validate_guid x =
+  Re.Str.string_match re_guid x 0
+
+let validate_guid_opt o =
+  Option.fold o ~none:true ~some:validate_guid
+
+let re_dotted_quad_file =
+  Re.Str.regexp "^[0-9]+(\\\\.[0-9]+){3}$"
 
 let validate_dotted_quad_file_v x =
-  let re = Re2.create_exn "[0-9]+(\\\\.[0-9]+){3}"
-  in Re2.matches re x
+  Re.Str.string_match re_dotted_quad_file x 0
 
-let validate_dotted_quad_file_v_opt = function
-  | None -> true
-  | Some v -> let re = Re2.create_exn "[0-9]+(\\\\.[0-9]+){3}" in Re2.matches re v
+let validate_dotted_quad_file_v_opt o =
+  Option.fold o ~none:true ~some:validate_dotted_quad_file_v
+
+let re_language =
+  Re.Str.regexp "^[a-zA-Z]{2}(-[a-zA-Z]{2})?$"
 
 let validate_language x =
-  let re = Re2.create_exn "^[a-zA-Z]{2}(-[a-zA-Z]{2})?$"
-  in Re2.matches re x
+  Re.Str.string_match re_language x 0
 
-let validate_language_opt = function
-  | None -> true
-  | Some v -> let re = Re2.create_exn "^[a-zA-Z]{2}(-[a-zA-Z]{2})?$" in Re2.matches re v
+let validate_language_opt x =
+  Option.fold x ~none:true ~some:validate_language
 
 let validate_unique = function
   | [] -> true
-  | lst -> if List.contains_dup lst ~compare:Stdlib.compare then false else true
+  | cur :: rem ->
+    let rec loop cur rem =
+      not (List.mem cur rem) &&
+      match rem with
+      | [] -> true
+      | cur :: rem -> loop cur rem
+    in
+    loop cur rem
 
-let validate_unique_opt = function
-  | None -> true
-  | Some v -> match v with
-    | [] -> true
-    | lst -> if List.contains_dup lst ~compare:Stdlib.compare then false else true
+let validate_unique_opt xs_opt =
+  Option.fold ~none:true ~some:validate_unique xs_opt
 
 let validate_rank x =
   if (Int64.compare x (-2L)) > 0 &&  (Int64.compare x (101L)) < 0 then true else false
@@ -87,12 +94,12 @@ let validate_list_min_size_one x = if (Int.compare (List.length x) 1) > 0 then t
 let validate_list_all_str_list (lst : string list option) pred =
   match lst with
   | None -> true
-  | Some v -> List.for_all v ~f:pred
+  | Some v -> List.for_all pred v
 
 let validate_list_all_deprecated_guid_list (lst : reporting_descriptor_deprecated_guids_item list option) pred =
     match lst with
     | None -> true
-    | Some v -> List.for_all v ~f:pred
+    | Some v -> List.for_all pred v
 
 (** Validator for type address *)
 let validate_address (address : address) =
