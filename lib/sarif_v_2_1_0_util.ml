@@ -11,7 +11,7 @@ let validate_iso8601_opt = function
               | Error _ -> false
 
 let re_mime_type =
-  Re.Str.regexp_string "[^/]+/.+"
+  Re.Str.regexp "^[^/]+/.+$"
 
 let validate_mime_type x =
   Re.Str.string_match re_mime_type x 0
@@ -35,7 +35,7 @@ let validate_int64_minimum_minus_one x =
   if (Int64.compare x (-2L)) > 0 then true else false
 
 let re_guid =
-  Re.Str.regexp_string "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}"
+  Re.Str.regexp "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
 
 let validate_guid x =
   Re.Str.string_match re_guid x 0
@@ -44,7 +44,7 @@ let validate_guid_opt o =
   Option.fold o ~none:true ~some:validate_guid
 
 let re_dotted_quad_file =
-  Re.Str.regexp_string "[0-9]+(\\\\.[0-9]+){3}"
+  Re.Str.regexp "^[0-9]+(\\\\.[0-9]+){3}$"
 
 let validate_dotted_quad_file_v x =
   Re.Str.string_match re_dotted_quad_file x 0
@@ -53,7 +53,7 @@ let validate_dotted_quad_file_v_opt o =
   Option.fold o ~none:true ~some:validate_dotted_quad_file_v
 
 let re_language =
-  Re.Str.regexp_string "[a-zA-Z]{2}(-[a-zA-Z]{2})?"
+  Re.Str.regexp "^[a-zA-Z]{2}(-[a-zA-Z]{2})?$"
 
 let validate_language x =
   Re.Str.string_match re_language x 0
