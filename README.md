@@ -6,6 +6,7 @@ API Documentation: https://gborough.github.io/sarif/sarif/sarif/index.html
 
 Reference implementation of the Static Analysis Results Interchange Format (SARIF) For OCaml, currently supporting version 2.1.0(latest: https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html)
 
+Note: You should always use the latest release of this library as it strives to represent the most correct model of sarif format
 
 This library uses atdgen to generate ocaml types therefore familiarity with its naming and conversion convention is highly recommended
 
