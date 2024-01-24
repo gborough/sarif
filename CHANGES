@@ -9,3 +9,8 @@
 
 ### Fixed
 * Fixed missing JSON field for artifactLocation, artifactChanges, shortDescription, deletedRegion, webRequests, webResponses, itemCount, exitCode, parentIndex, partialFingerprints, workItemUris, mappedTo
+
+## 0.2.1 (2024-01-24)
+
+### Removed
+* Removed core and re2 dependencies
