@@ -3,18 +3,18 @@
 
 (** The MIME type (RFC 2045) of the artifact. *)
 type artifact_mimetype = Sarif_v_2_1_0_t.artifact_mimetype
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** ArtifactRolesItem *)
 type artifact_roles_item = Sarif_v_2_1_0_t.artifact_roles_item
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A stable, unique identifier for this external properties object, in the
   form of a GUID.
 *)
 type external_properties_guid = Sarif_v_2_1_0_t.external_properties_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A stable, unique identifier for the run associated with this external
@@ -22,23 +22,23 @@ type external_properties_guid = Sarif_v_2_1_0_t.external_properties_guid
 *)
 type external_properties_run_guid =
   Sarif_v_2_1_0_t.external_properties_run_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 type external_properties_version =
   Sarif_v_2_1_0_t.external_properties_version
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
-type hm_str_str = Sarif_v_2_1_0_t.hm_str_str [@@deriving show,eq,ord]
+type hm_str_str = Sarif_v_2_1_0_t.hm_str_str [@@deriving show,eq]
 
-type int64 = Sarif_v_2_1_0_t.int64 [@@deriving show,eq,ord]
+type int64 = Sarif_v_2_1_0_t.int64 [@@deriving show,eq]
 
 (** A value specifying the severity level of the notification. *)
 type notification_level = Sarif_v_2_1_0_t.notification_level
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Key/value pairs that provide additional information about the object. *)
 type property_bag = Sarif_v_2_1_0_t.property_bag
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A physical or virtual address, or a range of addresses, in an 'addressable
@@ -85,7 +85,7 @@ type address = Sarif_v_2_1_0_t.address = {
       top-most parent object.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A logical location of a construct that produced a result. *)
 type logical_location = Sarif_v_2_1_0_t.logical_location = {
@@ -124,7 +124,7 @@ type logical_location = Sarif_v_2_1_0_t.logical_location = {
       location.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Encapsulates a message intended to be read by the end user. *)
 type message = Sarif_v_2_1_0_t.message = {
@@ -138,7 +138,7 @@ type message = Sarif_v_2_1_0_t.message = {
     *);
   text: string option (** A plain text message string. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Specifies the location of an artifact. *)
 type artifact_location = Sarif_v_2_1_0_t.artifact_location = {
@@ -162,7 +162,7 @@ type artifact_location = Sarif_v_2_1_0_t.artifact_location = {
       which a relative URI in the "uri" property is interpreted.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Represents a directed edge in a graph. *)
 type edge = Sarif_v_2_1_0_t.edge = {
@@ -178,7 +178,7 @@ type edge = Sarif_v_2_1_0_t.edge = {
   target_node_id: string
     (** Identifies the target node (the node at which the edge ends). *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Information about the relation of one location to another. *)
 type location_relationship = Sarif_v_2_1_0_t.location_relationship = {
@@ -196,7 +196,7 @@ type location_relationship = Sarif_v_2_1_0_t.location_relationship = {
     *);
   target: int64 (** A reference to the related location. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A message string or message format string rendered in multiple formats.
@@ -210,7 +210,7 @@ type multiformat_message_string =
     *);
   text: string (** A plain text message string or format string. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Represents the contents of an artifact. *)
 type artifact_content = Sarif_v_2_1_0_t.artifact_content = {
@@ -231,9 +231,9 @@ type artifact_content = Sarif_v_2_1_0_t.artifact_content = {
     *);
   text: string option (** UTF-8-encoded content from a text artifact. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
-type hm_str_mms = Sarif_v_2_1_0_t.hm_str_mms [@@deriving show,eq,ord]
+type hm_str_mms = Sarif_v_2_1_0_t.hm_str_mms [@@deriving show,eq]
 
 (** Represents the traversal of a single edge during a graph traversal. *)
 type edge_traversal = Sarif_v_2_1_0_t.edge_traversal = {
@@ -254,7 +254,7 @@ type edge_traversal = Sarif_v_2_1_0_t.edge_traversal = {
       The number of edge traversals necessary to return from a nested graph.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 type graph_traversal_variant0 = Sarif_v_2_1_0_t.graph_traversal_variant0 = {
   description: message option (** A description of this graph traversal. *);
@@ -282,7 +282,7 @@ type graph_traversal_variant0 = Sarif_v_2_1_0_t.graph_traversal_variant0 = {
   run_graph_index: int64
     (** The index within the run.graphs to be associated with the result. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 type graph_traversal_variant1 = Sarif_v_2_1_0_t.graph_traversal_variant1 = {
   description: message option (** A description of this graph traversal. *);
@@ -310,11 +310,11 @@ type graph_traversal_variant1 = Sarif_v_2_1_0_t.graph_traversal_variant1 = {
   run_graph_index: int64
     (** The index within the run.graphs to be associated with the result. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Represents a path through a graph. *)
 type graph_traversal = Sarif_v_2_1_0_t.graph_traversal
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** An area within an image. *)
 type rectangle = Sarif_v_2_1_0_t.rectangle = {
@@ -329,7 +329,7 @@ type rectangle = Sarif_v_2_1_0_t.rectangle = {
   right: float option;
   top: float option
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A region within an artifact where a result was detected. *)
 type region = Sarif_v_2_1_0_t.region = {
@@ -368,7 +368,7 @@ type region = Sarif_v_2_1_0_t.region = {
   start_line: int64 option
     (** The line number of the first character in the region. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** An artifact relevant to a result. *)
 type attachment = Sarif_v_2_1_0_t.attachment = {
@@ -387,7 +387,7 @@ type attachment = Sarif_v_2_1_0_t.attachment = {
   regions: region list option
     (** An array of regions of interest within the attachment. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A physical location relevant to a result. Specifies a reference to a
@@ -410,7 +410,7 @@ type physical_location = Sarif_v_2_1_0_t.physical_location = {
     *);
   region: region option (** Specifies a portion of the artifact. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A location within a programming artifact. *)
 type location = Sarif_v_2_1_0_t.location = {
@@ -436,7 +436,7 @@ type location = Sarif_v_2_1_0_t.location = {
       and others.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The replacement of a single region of an artifact. *)
 type replacement = Sarif_v_2_1_0_t.replacement = {
@@ -452,7 +452,7 @@ type replacement = Sarif_v_2_1_0_t.replacement = {
       replacement.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A change to a single artifact. *)
 type artifact_change = Sarif_v_2_1_0_t.artifact_change = {
@@ -469,7 +469,7 @@ type artifact_change = Sarif_v_2_1_0_t.artifact_change = {
       'artifactLocation'.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A proposed fix for the problem represented by a result object. A fix
@@ -487,12 +487,12 @@ type fix = Sarif_v_2_1_0_t.fix = {
   properties: property_bag option
     (** Key/value pairs that provide additional information about the fix. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Specifies the failure level for the report. *)
 type reporting_configuration_level =
   Sarif_v_2_1_0_t.reporting_configuration_level
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Information about a rule or notification that can be configured at runtime.
@@ -511,46 +511,46 @@ type reporting_configuration = Sarif_v_2_1_0_t.reporting_configuration = {
     *);
   rank: int64
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** ReportingDescriptorDeprecatedGuidsItem *)
 type reporting_descriptor_deprecated_guids_item =
   Sarif_v_2_1_0_t.reporting_descriptor_deprecated_guids_item
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A unique identifier for the reporting descriptor in the form of a GUID.
 *)
 type reporting_descriptor_guid = Sarif_v_2_1_0_t.reporting_descriptor_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A guid that uniquely identifies the descriptor. *)
 type reporting_descriptor_reference_guid =
   Sarif_v_2_1_0_t.reporting_descriptor_reference_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The state of a result relative to a baseline of a previous run. *)
 type result_baseline_state = Sarif_v_2_1_0_t.result_baseline_state
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A stable, unique identifier for the equivalence class of logically
   identical results to which this result belongs, in the form of a GUID.
 *)
 type result_correlation_guid = Sarif_v_2_1_0_t.result_correlation_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A stable, unique identifier for the result in the form of a GUID. *)
 type result_guid = Sarif_v_2_1_0_t.result_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A value that categorizes results by evaluation state. *)
 type result_kind = Sarif_v_2_1_0_t.result_kind
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A value specifying the severity level of the result. *)
 type result_level = Sarif_v_2_1_0_t.result_level
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A GUID-valued string equal to the automationDetails.guid property of the
@@ -558,7 +558,7 @@ type result_level = Sarif_v_2_1_0_t.result_level
 *)
 type result_provenance_first_detection_run_guid =
   Sarif_v_2_1_0_t.result_provenance_first_detection_run_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A GUID-valued string equal to the automationDetails.guid property of the
@@ -566,7 +566,7 @@ type result_provenance_first_detection_run_guid =
 *)
 type result_provenance_last_detection_run_guid =
   Sarif_v_2_1_0_t.result_provenance_last_detection_run_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Contains information about how and when a result was detected. *)
 type result_provenance = Sarif_v_2_1_0_t.result_provenance = {
@@ -607,7 +607,7 @@ type result_provenance = Sarif_v_2_1_0_t.result_provenance = {
       Key/value pairs that provide additional information about the result.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A function call within a stack trace. *)
 type stack_frame = Sarif_v_2_1_0_t.stack_frame = {
@@ -624,7 +624,7 @@ type stack_frame = Sarif_v_2_1_0_t.stack_frame = {
     *);
   thread_id: int64 option (** The thread identifier of the stack frame. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A call stack that is relevant to a result. *)
 type stack = Sarif_v_2_1_0_t.stack = {
@@ -639,19 +639,19 @@ type stack = Sarif_v_2_1_0_t.stack = {
       Key/value pairs that provide additional information about the stack.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A stable, unique identifier for the suprression in the form of a GUID. *)
 type suppression_guid = Sarif_v_2_1_0_t.suppression_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A string that indicates where the suppression is persisted. *)
 type suppression_kind = Sarif_v_2_1_0_t.suppression_kind
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A string that indicates the review status of the suppression. *)
 type suppression_status = Sarif_v_2_1_0_t.suppression_status
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A suppression that is relevant to a result. *)
 type suppression = Sarif_v_2_1_0_t.suppression = {
@@ -673,7 +673,7 @@ type suppression = Sarif_v_2_1_0_t.suppression = {
   status: suppression_status option
     (** A string that indicates the review status of the suppression. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Specifies the importance of this location in understanding the code flow in
@@ -682,12 +682,12 @@ type suppression = Sarif_v_2_1_0_t.suppression = {
 *)
 type thread_flow_location_importance =
   Sarif_v_2_1_0_t.thread_flow_location_importance
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** ToolComponentContentsItem *)
 type tool_component_contents_item =
   Sarif_v_2_1_0_t.tool_component_contents_item
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   The binary version of the tool component's primary executable file
@@ -696,11 +696,11 @@ type tool_component_contents_item =
 *)
 type tool_component_dotted_quad_file_version =
   Sarif_v_2_1_0_t.tool_component_dotted_quad_file_version
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A unique identifier for the tool component in the form of a GUID. *)
 type tool_component_guid = Sarif_v_2_1_0_t.tool_component_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   The language of the messages emitted into the log file during this run
@@ -710,12 +710,12 @@ type tool_component_guid = Sarif_v_2_1_0_t.tool_component_guid
   not required (in order for this data to conform to RFC5646).
 *)
 type tool_component_language = Sarif_v_2_1_0_t.tool_component_language
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The 'guid' property of the referenced toolComponent. *)
 type tool_component_reference_guid =
   Sarif_v_2_1_0_t.tool_component_reference_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Identifies a particular toolComponent object, either the driver or an
@@ -734,7 +734,7 @@ type tool_component_reference = Sarif_v_2_1_0_t.tool_component_reference = {
       toolComponentReference.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Information about how to locate a relevant reporting descriptor. *)
 type reporting_descriptor_reference =
@@ -759,7 +759,7 @@ type reporting_descriptor_reference =
       descriptor.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Information about how a specific rule or notification was reconfigured at
@@ -781,7 +781,7 @@ type configuration_override = Sarif_v_2_1_0_t.configuration_override = {
       configuration override.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Information about the relation of one reporting descriptor to another. *)
 type reporting_descriptor_relationship =
@@ -803,7 +803,7 @@ type reporting_descriptor_relationship =
   target: reporting_descriptor_reference
     (** A reference to the related reporting descriptor. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Metadata that describes a specific report produced by the tool, as part of
@@ -871,7 +871,7 @@ type reporting_descriptor = Sarif_v_2_1_0_t.reporting_descriptor = {
       text.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Provides additional metadata related to translation. *)
 type translation_metadata = Sarif_v_2_1_0_t.translation_metadata = {
@@ -897,7 +897,7 @@ type translation_metadata = Sarif_v_2_1_0_t.translation_metadata = {
   short_description: multiformat_message_string option
     (** A brief description of the translation metadata. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A component, such as a plug-in or the driver, of the analysis tool that was
@@ -1034,7 +1034,7 @@ type tool_component = Sarif_v_2_1_0_t.tool_component = {
       provides.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The analysis tool that was run. *)
 type tool = Sarif_v_2_1_0_t.tool = {
@@ -1049,7 +1049,7 @@ type tool = Sarif_v_2_1_0_t.tool = {
       Key/value pairs that provide additional information about the tool.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Describes an HTTP request. *)
 type web_request = Sarif_v_2_1_0_t.web_request = {
@@ -1074,7 +1074,7 @@ type web_request = Sarif_v_2_1_0_t.web_request = {
   target: string option (** The target of the request. *);
   version: string option (** The request version. Example: '1.1'. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Describes the response to an HTTP request. *)
 type web_response = Sarif_v_2_1_0_t.web_response = {
@@ -1097,7 +1097,7 @@ type web_response = Sarif_v_2_1_0_t.web_response = {
   status_code: string option (** The response status code. Example: 451. *);
   version: string option (** The request version. Example: '1.1'. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A location visited by an analysis tool while simulating or monitoring the
@@ -1160,7 +1160,7 @@ type thread_flow_location = Sarif_v_2_1_0_t.thread_flow_location = {
   web_response: web_response option
     (** A web response associated with this thread flow location. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Describes a sequence of code locations that specify a path through a single
@@ -1195,7 +1195,7 @@ type thread_flow = Sarif_v_2_1_0_t.thread_flow = {
       flow.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A set of threadFlows which together describe a pattern of code execution
@@ -1214,7 +1214,7 @@ type code_flow = Sarif_v_2_1_0_t.code_flow = {
       describes the progress of a program through a thread of execution.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Represents a node in a graph. *)
 type node = Sarif_v_2_1_0_t.node = {
@@ -1228,7 +1228,7 @@ type node = Sarif_v_2_1_0_t.node = {
       Key/value pairs that provide additional information about the node.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Describes a runtime exception encountered during the execution of an
@@ -1255,7 +1255,7 @@ type exception_ = Sarif_v_2_1_0_t.exception_ = {
   stack: stack option
     (** The sequence of function calls leading to the exception. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A network of nodes and directed edges that describes some aspect of the
@@ -1272,7 +1272,7 @@ type graph = Sarif_v_2_1_0_t.graph = {
       Key/value pairs that provide additional information about the graph.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A result produced by an analysis tool. *)
 type result = Sarif_v_2_1_0_t.result = {
@@ -1378,7 +1378,7 @@ type result = Sarif_v_2_1_0_t.result = {
   work_item_uris: string list option
     (** The URIs of the work items associated with this result. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Describes a condition relevant to the tool itself, as opposed to being
@@ -1416,7 +1416,7 @@ type notification = Sarif_v_2_1_0_t.notification = {
       analysis tool generated the notification.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The runtime environment of the analysis tool run. *)
 type invocation = Sarif_v_2_1_0_t.invocation = {
@@ -1519,7 +1519,7 @@ type invocation = Sarif_v_2_1_0_t.invocation = {
   working_directory: artifact_location option
     (** The working directory for the invocation. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Describes how a converter transformed the output of a static analysis tool
@@ -1539,7 +1539,7 @@ type conversion = Sarif_v_2_1_0_t.conversion = {
     *);
   tool: tool (** A tool object that describes the converter. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A single artifact. In some cases, this artifact might be nested within
@@ -1590,7 +1590,7 @@ type artifact = Sarif_v_2_1_0_t.artifact = {
       text file that contains source code.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The top-level element of an external property file. *)
 and external_properties = Sarif_v_2_1_0_t.external_properties = {
@@ -1665,7 +1665,7 @@ and external_properties = Sarif_v_2_1_0_t.external_properties = {
   web_responses: web_response list option
     (** Responses that will be merged with a separate run. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Specifies the information necessary to retrieve a desired revision from a
@@ -1697,7 +1697,7 @@ type version_control_details = Sarif_v_2_1_0_t.version_control_details = {
   revision_tag: string option
     (** A tag that has been applied to the revision. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Defines locations of special significance to SARIF consumers. *)
 type special_locations = Sarif_v_2_1_0_t.special_locations = {
@@ -1712,9 +1712,9 @@ type special_locations = Sarif_v_2_1_0_t.special_locations = {
       locations.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
-type sarif_version = Sarif_v_2_1_0_t.sarif_version [@@deriving show,eq,ord]
+type sarif_version = Sarif_v_2_1_0_t.sarif_version [@@deriving show,eq]
 
 (**
   The language of the messages emitted into the log file during this run
@@ -1724,18 +1724,18 @@ type sarif_version = Sarif_v_2_1_0_t.sarif_version [@@deriving show,eq,ord]
   not required (in order for this data to conform to RFC5646).
 *)
 type run_language = Sarif_v_2_1_0_t.run_language
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Specifies the unit in which the tool measures columns. *)
 type run_column_kind = Sarif_v_2_1_0_t.run_column_kind
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   The 'guid' property of a previous SARIF 'run' that comprises the baseline
   that was used to compute result 'baselineState' properties for the run.
 *)
 type run_baseline_guid = Sarif_v_2_1_0_t.run_baseline_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A stable, unique identifier for this object's containing run object in the
@@ -1743,7 +1743,7 @@ type run_baseline_guid = Sarif_v_2_1_0_t.run_baseline_guid
 *)
 type run_automation_details_guid =
   Sarif_v_2_1_0_t.run_automation_details_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A stable, unique identifier for the equivalence class of runs to which this
@@ -1751,7 +1751,7 @@ type run_automation_details_guid =
 *)
 type run_automation_details_correlation_guid =
   Sarif_v_2_1_0_t.run_automation_details_correlation_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Information that describes a run's identity and role within an engineering
@@ -1784,9 +1784,9 @@ type run_automation_details = Sarif_v_2_1_0_t.run_automation_details = {
       automation details.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
-type hm_str_al = Sarif_v_2_1_0_t.hm_str_al [@@deriving show,eq,ord]
+type hm_str_al = Sarif_v_2_1_0_t.hm_str_al [@@deriving show,eq]
 
 (**
   A stable, unique identifier for the external property file in the form of a
@@ -1794,7 +1794,7 @@ type hm_str_al = Sarif_v_2_1_0_t.hm_str_al [@@deriving show,eq,ord]
 *)
 type external_property_file_reference_guid =
   Sarif_v_2_1_0_t.external_property_file_reference_guid
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Contains information that enables a SARIF consumer to locate the external
@@ -1821,7 +1821,7 @@ type external_property_file_reference =
       property file.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   References to external property files that should be inlined with the
@@ -1915,7 +1915,7 @@ type external_property_file_references =
       be merged with the root log file.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Describes a single run of an analysis tool, and contains the reported
@@ -2045,7 +2045,7 @@ type run = Sarif_v_2_1_0_t.run = {
   web_responses: web_response list option
     (** An array of response objects cached at run level. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Core type: Static Analysis Results Format (SARIF) Version 2.1.0 JSON
@@ -2065,7 +2065,7 @@ type sarif_json_schema = Sarif_v_2_1_0_t.sarif_json_schema = {
   schema: string option
     (** The URI of the JSON schema corresponding to the version. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 let write__float_option = (
   Atdgen_runtime.Oj_run.write_std_option (
@@ -2274,6 +2274,26 @@ let read__x_c3c9756 = (
 )
 let _x_c3c9756_of_string s =
   read__x_c3c9756 (Yojson.Safe.init_lexer ()) (Lexing.from_string s)
+let write__x_d561347 = (
+  Atdgen_runtime.Oj_run.write_assoc_list (
+    Yojson.Safe.write_string
+  ) (
+    Yojson.Safe.write_json
+  )
+)
+let string_of__x_d561347 ?(len = 1024) x =
+  let ob = Buffer.create len in
+  write__x_d561347 ob x;
+  Buffer.contents ob
+let read__x_d561347 = (
+  Atdgen_runtime.Oj_run.read_assoc_list (
+    Atdgen_runtime.Oj_run.read_string
+  ) (
+    Atdgen_runtime.Oj_run.read_json
+  )
+)
+let _x_d561347_of_string s =
+  read__x_d561347 (Yojson.Safe.init_lexer ()) (Lexing.from_string s)
 let write_artifact_mimetype = (
   Yojson.Safe.write_string
 )
@@ -3093,14 +3113,14 @@ let read__notification_level_option = (
 let _notification_level_option_of_string s =
   read__notification_level_option (Yojson.Safe.init_lexer ()) (Lexing.from_string s)
 let write_property_bag = (
-  write_hm_str_str
+  write__x_d561347
 )
 let string_of_property_bag ?(len = 1024) x =
   let ob = Buffer.create len in
   write_property_bag ob x;
   Buffer.contents ob
 let read_property_bag = (
-  read_hm_str_str
+  read__x_d561347
 )
 let property_bag_of_string s =
   read_property_bag (Yojson.Safe.init_lexer ()) (Lexing.from_string s)
