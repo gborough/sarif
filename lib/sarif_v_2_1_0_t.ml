@@ -3,7 +3,7 @@
 
 (** The MIME type (RFC 2045) of the artifact. *)
 type artifact_mimetype = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** ArtifactRolesItem *)
 type artifact_roles_item = [
@@ -14,36 +14,35 @@ type artifact_roles_item = [
   | `Directory | `UserSpecifiedConfiguration | `ToolSpecifiedConfiguration
   | `DebugOutputFile
 ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A stable, unique identifier for this external properties object, in the
   form of a GUID.
 *)
 type external_properties_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A stable, unique identifier for the run associated with this external
   properties object, in the form of a GUID.
 *)
 type external_properties_run_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
-type external_properties_version = [ `TwoDotOneDotZero ]
-  [@@deriving show,eq,ord]
+type external_properties_version = [ `TwoDotOneDotZero ] [@@deriving show,eq]
 
-type hm_str_str = (string * string) list [@@deriving show,eq,ord]
+type hm_str_str = (string * string) list [@@deriving show,eq]
 
-type int64 = Int64.t [@@deriving show,eq,ord]
+type int64 = Int64.t [@@deriving show,eq]
 
 (** A value specifying the severity level of the notification. *)
 type notification_level = [ `None | `Note | `Warning | `Error ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Key/value pairs that provide additional information about the object. *)
-type property_bag = hm_str_str
-  [@@deriving show,eq,ord]
+type property_bag = (string * Yojson.Safe.t) list
+  [@@deriving show,eq]
 
 (**
   A physical or virtual address, or a range of addresses, in an 'addressable
@@ -90,7 +89,7 @@ type address = {
       top-most parent object.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A logical location of a construct that produced a result. *)
 type logical_location = {
@@ -129,7 +128,7 @@ type logical_location = {
       location.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Encapsulates a message intended to be read by the end user. *)
 type message = {
@@ -143,7 +142,7 @@ type message = {
     *);
   text: string option (** A plain text message string. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Specifies the location of an artifact. *)
 type artifact_location = {
@@ -167,7 +166,7 @@ type artifact_location = {
       which a relative URI in the "uri" property is interpreted.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Represents a directed edge in a graph. *)
 type edge = {
@@ -183,7 +182,7 @@ type edge = {
   target_node_id: string
     (** Identifies the target node (the node at which the edge ends). *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Information about the relation of one location to another. *)
 type location_relationship = {
@@ -201,7 +200,7 @@ type location_relationship = {
     *);
   target: int64 (** A reference to the related location. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A message string or message format string rendered in multiple formats.
@@ -214,7 +213,7 @@ type multiformat_message_string = {
     *);
   text: string (** A plain text message string or format string. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Represents the contents of an artifact. *)
 type artifact_content = {
@@ -235,10 +234,10 @@ type artifact_content = {
     *);
   text: string option (** UTF-8-encoded content from a text artifact. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 type hm_str_mms = (string * multiformat_message_string) list
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Represents the traversal of a single edge during a graph traversal. *)
 type edge_traversal = {
@@ -259,7 +258,7 @@ type edge_traversal = {
       The number of edge traversals necessary to return from a nested graph.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 type graph_traversal_variant0 = {
   description: message option (** A description of this graph traversal. *);
@@ -287,7 +286,7 @@ type graph_traversal_variant0 = {
   run_graph_index: int64
     (** The index within the run.graphs to be associated with the result. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 type graph_traversal_variant1 = {
   description: message option (** A description of this graph traversal. *);
@@ -315,14 +314,14 @@ type graph_traversal_variant1 = {
   run_graph_index: int64
     (** The index within the run.graphs to be associated with the result. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Represents a path through a graph. *)
 type graph_traversal = [
     `Variant0 of graph_traversal_variant0
   | `Variant1 of graph_traversal_variant1
 ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** An area within an image. *)
 type rectangle = {
@@ -337,7 +336,7 @@ type rectangle = {
   right: float option;
   top: float option
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A region within an artifact where a result was detected. *)
 type region = {
@@ -376,7 +375,7 @@ type region = {
   start_line: int64 option
     (** The line number of the first character in the region. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** An artifact relevant to a result. *)
 type attachment = {
@@ -395,7 +394,7 @@ type attachment = {
   regions: region list option
     (** An array of regions of interest within the attachment. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A physical location relevant to a result. Specifies a reference to a
@@ -418,7 +417,7 @@ type physical_location = {
     *);
   region: region option (** Specifies a portion of the artifact. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A location within a programming artifact. *)
 type location = {
@@ -444,7 +443,7 @@ type location = {
       and others.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The replacement of a single region of an artifact. *)
 type replacement = {
@@ -460,7 +459,7 @@ type replacement = {
       replacement.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A change to a single artifact. *)
 type artifact_change = {
@@ -477,7 +476,7 @@ type artifact_change = {
       'artifactLocation'.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A proposed fix for the problem represented by a result object. A fix
@@ -495,11 +494,11 @@ type fix = {
   properties: property_bag option
     (** Key/value pairs that provide additional information about the fix. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Specifies the failure level for the report. *)
 type reporting_configuration_level = [ `None | `Note | `Warning | `Error ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Information about a rule or notification that can be configured at runtime.
@@ -518,60 +517,60 @@ type reporting_configuration = {
     *);
   rank: int64
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** ReportingDescriptorDeprecatedGuidsItem *)
 type reporting_descriptor_deprecated_guids_item = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A unique identifier for the reporting descriptor in the form of a GUID.
 *)
 type reporting_descriptor_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A guid that uniquely identifies the descriptor. *)
 type reporting_descriptor_reference_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The state of a result relative to a baseline of a previous run. *)
 type result_baseline_state = [ `New | `Unchanged | `Updated | `Absent ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A stable, unique identifier for the equivalence class of logically
   identical results to which this result belongs, in the form of a GUID.
 *)
 type result_correlation_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A stable, unique identifier for the result in the form of a GUID. *)
 type result_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A value that categorizes results by evaluation state. *)
 type result_kind = [
     `NotApplicable | `Pass | `Fail | `Review | `Open | `Informational
 ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A value specifying the severity level of the result. *)
 type result_level = [ `None | `Note | `Warning | `Error ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A GUID-valued string equal to the automationDetails.guid property of the
   run in which the result was first detected.
 *)
 type result_provenance_first_detection_run_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A GUID-valued string equal to the automationDetails.guid property of the
   run in which the result was most recently detected.
 *)
 type result_provenance_last_detection_run_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Contains information about how and when a result was detected. *)
 type result_provenance = {
@@ -612,7 +611,7 @@ type result_provenance = {
       Key/value pairs that provide additional information about the result.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A function call within a stack trace. *)
 type stack_frame = {
@@ -629,7 +628,7 @@ type stack_frame = {
     *);
   thread_id: int64 option (** The thread identifier of the stack frame. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A call stack that is relevant to a result. *)
 type stack = {
@@ -644,19 +643,19 @@ type stack = {
       Key/value pairs that provide additional information about the stack.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A stable, unique identifier for the suprression in the form of a GUID. *)
 type suppression_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A string that indicates where the suppression is persisted. *)
 type suppression_kind = [ `InSource | `External ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A string that indicates the review status of the suppression. *)
 type suppression_status = [ `Accepted | `UnderReview | `Rejected ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A suppression that is relevant to a result. *)
 type suppression = {
@@ -678,7 +677,7 @@ type suppression = {
   status: suppression_status option
     (** A string that indicates the review status of the suppression. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Specifies the importance of this location in understanding the code flow in
@@ -688,11 +687,11 @@ type suppression = {
 type thread_flow_location_importance = [
     `Important | `Essential | `Unimportant
 ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** ToolComponentContentsItem *)
 type tool_component_contents_item = [ `LocalizedData | `NonLocalizedData ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   The binary version of the tool component's primary executable file
@@ -700,11 +699,11 @@ type tool_component_contents_item = [ `LocalizedData | `NonLocalizedData ]
   operating systems that express file versions in this way).
 *)
 type tool_component_dotted_quad_file_version = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A unique identifier for the tool component in the form of a GUID. *)
 type tool_component_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   The language of the messages emitted into the log file during this run
@@ -714,11 +713,11 @@ type tool_component_guid = string
   not required (in order for this data to conform to RFC5646).
 *)
 type tool_component_language = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The 'guid' property of the referenced toolComponent. *)
 type tool_component_reference_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Identifies a particular toolComponent object, either the driver or an
@@ -737,7 +736,7 @@ type tool_component_reference = {
       toolComponentReference.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Information about how to locate a relevant reporting descriptor. *)
 type reporting_descriptor_reference = {
@@ -761,7 +760,7 @@ type reporting_descriptor_reference = {
       descriptor.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Information about how a specific rule or notification was reconfigured at
@@ -783,7 +782,7 @@ type configuration_override = {
       configuration override.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Information about the relation of one reporting descriptor to another. *)
 type reporting_descriptor_relationship = {
@@ -804,7 +803,7 @@ type reporting_descriptor_relationship = {
   target: reporting_descriptor_reference
     (** A reference to the related reporting descriptor. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Metadata that describes a specific report produced by the tool, as part of
@@ -872,7 +871,7 @@ type reporting_descriptor = {
       text.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Provides additional metadata related to translation. *)
 type translation_metadata = {
@@ -898,7 +897,7 @@ type translation_metadata = {
   short_description: multiformat_message_string option
     (** A brief description of the translation metadata. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A component, such as a plug-in or the driver, of the analysis tool that was
@@ -1035,7 +1034,7 @@ type tool_component = {
       provides.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The analysis tool that was run. *)
 type tool = {
@@ -1050,7 +1049,7 @@ type tool = {
       Key/value pairs that provide additional information about the tool.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Describes an HTTP request. *)
 type web_request = {
@@ -1075,7 +1074,7 @@ type web_request = {
   target: string option (** The target of the request. *);
   version: string option (** The request version. Example: '1.1'. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Describes the response to an HTTP request. *)
 type web_response = {
@@ -1098,7 +1097,7 @@ type web_response = {
   status_code: string option (** The response status code. Example: 451. *);
   version: string option (** The request version. Example: '1.1'. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A location visited by an analysis tool while simulating or monitoring the
@@ -1161,7 +1160,7 @@ type thread_flow_location = {
   web_response: web_response option
     (** A web response associated with this thread flow location. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Describes a sequence of code locations that specify a path through a single
@@ -1196,7 +1195,7 @@ type thread_flow = {
       flow.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A set of threadFlows which together describe a pattern of code execution
@@ -1215,7 +1214,7 @@ type code_flow = {
       describes the progress of a program through a thread of execution.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Represents a node in a graph. *)
 type node = {
@@ -1229,7 +1228,7 @@ type node = {
       Key/value pairs that provide additional information about the node.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Describes a runtime exception encountered during the execution of an
@@ -1256,7 +1255,7 @@ type exception_ = {
   stack: stack option
     (** The sequence of function calls leading to the exception. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A network of nodes and directed edges that describes some aspect of the
@@ -1273,7 +1272,7 @@ type graph = {
       Key/value pairs that provide additional information about the graph.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** A result produced by an analysis tool. *)
 type result = {
@@ -1379,7 +1378,7 @@ type result = {
   work_item_uris: string list option
     (** The URIs of the work items associated with this result. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Describes a condition relevant to the tool itself, as opposed to being
@@ -1417,7 +1416,7 @@ type notification = {
       analysis tool generated the notification.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The runtime environment of the analysis tool run. *)
 type invocation = {
@@ -1520,7 +1519,7 @@ type invocation = {
   working_directory: artifact_location option
     (** The working directory for the invocation. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Describes how a converter transformed the output of a static analysis tool
@@ -1540,7 +1539,7 @@ type conversion = {
     *);
   tool: tool (** A tool object that describes the converter. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A single artifact. In some cases, this artifact might be nested within
@@ -1591,7 +1590,7 @@ type artifact = {
       text file that contains source code.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** The top-level element of an external property file. *)
 and external_properties = {
@@ -1666,7 +1665,7 @@ and external_properties = {
   web_responses: web_response list option
     (** Responses that will be merged with a separate run. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Specifies the information necessary to retrieve a desired revision from a
@@ -1698,7 +1697,7 @@ type version_control_details = {
   revision_tag: string option
     (** A tag that has been applied to the revision. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Defines locations of special significance to SARIF consumers. *)
 type special_locations = {
@@ -1713,9 +1712,9 @@ type special_locations = {
       locations.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
-type sarif_version = [ `TwoDotOneDotZero ] [@@deriving show,eq,ord]
+type sarif_version = [ `TwoDotOneDotZero ] [@@deriving show,eq]
 
 (**
   The language of the messages emitted into the log file during this run
@@ -1725,32 +1724,32 @@ type sarif_version = [ `TwoDotOneDotZero ] [@@deriving show,eq,ord]
   not required (in order for this data to conform to RFC5646).
 *)
 type run_language = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (** Specifies the unit in which the tool measures columns. *)
 type run_column_kind = [ `Utf16CodeUnits | `UnicodeCodePoints ]
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   The 'guid' property of a previous SARIF 'run' that comprises the baseline
   that was used to compute result 'baselineState' properties for the run.
 *)
 type run_baseline_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A stable, unique identifier for this object's containing run object in the
   form of a GUID.
 *)
 type run_automation_details_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   A stable, unique identifier for the equivalence class of runs to which this
   object's containing run object belongs in the form of a GUID.
 *)
 type run_automation_details_correlation_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Information that describes a run's identity and role within an engineering
@@ -1783,16 +1782,16 @@ type run_automation_details = {
       automation details.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
-type hm_str_al = (string * artifact_location) list [@@deriving show,eq,ord]
+type hm_str_al = (string * artifact_location) list [@@deriving show,eq]
 
 (**
   A stable, unique identifier for the external property file in the form of a
   GUID.
 *)
 type external_property_file_reference_guid = string
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Contains information that enables a SARIF consumer to locate the external
@@ -1818,7 +1817,7 @@ type external_property_file_reference = {
       property file.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   References to external property files that should be inlined with the
@@ -1911,7 +1910,7 @@ type external_property_file_references = {
       be merged with the root log file.
     *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Describes a single run of an analysis tool, and contains the reported
@@ -2041,7 +2040,7 @@ type run = {
   web_responses: web_response list option
     (** An array of response objects cached at run level. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
 
 (**
   Core type: Static Analysis Results Format (SARIF) Version 2.1.0 JSON
@@ -2061,4 +2060,4 @@ type sarif_json_schema = {
   schema: string option
     (** The URI of the JSON schema corresponding to the version. *)
 }
-  [@@deriving show,eq,ord]
+  [@@deriving show,eq]
