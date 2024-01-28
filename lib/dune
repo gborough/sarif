@@ -2,25 +2,32 @@
  (public_name sarif)
  (name sarif)
  (libraries timedesc atdgen-runtime re uri)
- (preprocess (pps ppx_deriving.show ppx_deriving.ord ppx_deriving.eq))
- (flags     :standard -w -30))
+ (preprocess
+  (pps ppx_deriving.show ppx_deriving.ord ppx_deriving.eq))
+ (flags :standard -w -30))
 
 (include_subdirs unqualified)
 
 (rule
  (targets sarif_v_2_1_0_t.ml sarif_v_2_1_0_t.mli)
- (deps    sarif_v_2_1_0.atd)
- (mode (promote (until-clean)))
- (action  (run atdgen -t %{deps})))
+ (deps sarif_v_2_1_0.atd)
+ (mode
+  (promote (until-clean)))
+ (action
+  (run atdgen -t %{deps})))
 
 (rule
  (targets sarif_v_2_1_0_j.ml sarif_v_2_1_0_j.mli)
- (deps    sarif_v_2_1_0.atd)
- (mode (promote (until-clean)))
- (action  (run atdgen -j -j-std %{deps})))
+ (deps sarif_v_2_1_0.atd)
+ (mode
+  (promote (until-clean)))
+ (action
+  (run atdgen -j -j-std %{deps})))
 
 (rule
  (targets sarif_v_2_1_0_v.ml sarif_v_2_1_0_v.mli)
- (deps    sarif_v_2_1_0.atd)
- (mode (promote (until-clean)))
- (action  (run atdgen -v %{deps})))
+ (deps sarif_v_2_1_0.atd)
+ (mode
+  (promote (until-clean)))
+ (action
+  (run atdgen -v %{deps})))
