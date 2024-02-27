@@ -218,6 +218,18 @@ let%expect_test "taxonomies" =
     {| {"guid":"1A567403-868F-405E-92CF-771A9ECB03A1","name":"Requirement levels","shortDescription":{"text":"This taxonomy classifies rules according to whether their use is required or recommended by company policy."},"taxa":[{"id":"RQL1001","name":"Required","shortDescription":{"text":"Rules in this category are required by company policy. All violations must be fixed unless an exemption is granted."}},{"id":"RQL1002","name":"Recommended","shortDescription":{"text":"Rules in this category are recommended but not required by company policy. Violations should be fixed but an exemption is not required to suppress a result."}}]} |}]
 ;;
 
+let%expect_test "atdgen_runtime_int64_bug_checking_rule_index" =
+  let json = read_all "data/taxonomies.json" in
+  let parsed_all = Sarif_v_2_1_0_j.sarif_json_schema_of_string json in
+  let run = Sarif_v_2_1_0_j.string_of_run @@ List.hd @@ parsed_all.runs in
+  let parsed_run = Sarif_v_2_1_0_j.run_of_string run in
+  let result = Sarif_v_2_1_0_j.string_of_result @@ List.nth (Option.get parsed_run.results) 1
+  in
+  print_endline result;
+  [%expect
+    {| {"locations":[{"physicalLocation":{"artifactLocation":{"uri":"file:///C:/code/myProject/io/file.c"}}}],"message":{"text":"This result violates a rule that is classified as 'Recommended'."},"ruleId":"TUT1002","ruleIndex":1} |}]
+;;
+
 let%expect_test "sarif_json_schema.version" =
   let sarif_json_schema =
     Sarif_v_2_1_0_v.create_sarif_json_schema ~version:`TwoDotOneDotZero ~runs:[] ()
