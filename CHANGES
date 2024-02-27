@@ -1,4 +1,9 @@
-## 0.2.1 (2024-01-29)
+## 0.3.1 (2024-02-28)
+
+### Fixed
+* Fixed atdgen runtime int64 JSON representation bug
+
+## 0.3.0 (2024-01-29)
 
 ### Added
 * Added ocamlformat rules
