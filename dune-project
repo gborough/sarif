@@ -28,7 +28,6 @@
    dune
    re
    (atdgen (>= 2.10.0))
-   ; fix int64 JSON issue https://github.com/ahrefs/atd/issues/402
    (atdgen-runtime (>= 2.12.0))
    timedesc
    (ppx_expect :with-test)
